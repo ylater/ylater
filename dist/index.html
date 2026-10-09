@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbfbfc">
+  <meta name="description" content="你好，我是 Murphy。从前端出发，参与医疗保障产品建设，探索 AI 与交互的新用法。把复杂，做简单。">
+  <meta property="og:title" content="Murphy — 把复杂，做简单。">
+  <meta property="og:description" content="前端、医疗保障与 AI。认真造东西，顺手玩一下。">
+  <meta property="og:type" content="website">
+  <title>Murphy — 把复杂，做简单。</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%232e53eb'/%3E%3Ctext x='11' y='46' font-family='Arial,sans-serif' font-size='44' font-weight='700' fill='white'%3Em%3C/text%3E%3C/svg%3E">
+  <style>
+    :root{color-scheme:light;--paper:#fbfbfc;--ink:#202126;--muted:#777980;--line:#e5e6eb;--accent:#2e53eb;--bluewash:#edf1ff;--body:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;--mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+    *{box-sizing:border-box}
+    html{font-size:100%}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    button:disabled{cursor:default}
+    button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:6px}
+    button{touch-action:manipulation}
+    ::selection{background:#dce4ff;color:var(--ink)}
+    .page{width:min(100%,1280px);min-height:100svh;margin:auto;padding:36px 64px 26px;display:flex;flex-direction:column}
+    main{flex:1;display:flex;flex-direction:column}
+    .header{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:42px}
+    .wordmark{font-size:29px;font-weight:780;letter-spacing:-1.6px;text-decoration:none;color:var(--ink);line-height:1.2}
+    .wordmark span{color:var(--accent)}
+    .header-actions{display:flex;align-items:center;gap:27px}
+    .about-button{border:0;background:transparent;padding:10px 0;font-size:14px;line-height:1.5;display:flex;align-items:center;gap:9px;color:#5b5d65}
+    .about-button:hover{color:var(--accent)}
+    .about-icon{display:inline-grid;place-items:center;width:17px;height:17px;border:1px solid currentColor;border-radius:50%;font-family:Georgia,serif;font-weight:bold;font-size:12px;line-height:1}
+    .hero{display:grid;grid-template-columns:1.15fr 1fr;align-items:center;gap:12px;flex:1;min-height:510px;padding:72px 0 65px}
+    .intro{position:relative;z-index:2}
+    .eyebrow{margin:0 0 28px;color:#71737c;font:12px/1.6 var(--mono);letter-spacing:.065em}
+    h1{font-weight:760;font-size:clamp(66px,7.5vw,99px);letter-spacing:-.065em;line-height:1.19;margin:0 0 30px;white-space:nowrap}
+    .word-button{position:relative;border:0;padding:0;background:none;color:var(--accent);font:inherit;letter-spacing:inherit;line-height:inherit;isolation:isolate}
+    .word-button::after{content:"";position:absolute;left:3%;right:0;bottom:6px;height:5px;background:currentColor;opacity:.14;border-radius:4px;transform:scaleX(.9);transition:transform .25s,opacity .25s}
+    .word-button:hover::after{transform:scaleX(1);opacity:.36}
+    .word-button.changed{animation:word-pop .38s cubic-bezier(.15,.85,.3,1.2)}
+    @keyframes word-pop{0%{transform:translateY(0)}35%{transform:translateY(-8px) rotate(-2deg)}75%{transform:translateY(2px)}100%{transform:translateY(0)}}
+    .bio{font-size:16px;line-height:1.95;color:#73757e;margin:0;letter-spacing:.005em}
+    .bio strong{font-weight:500;color:#353741}
+    .playground{position:relative;min-width:0;align-self:center;isolation:isolate;transform:translateY(9px)}
+    .stage{position:relative;width:100%;height:370px;user-select:none;-webkit-user-select:none}
+    .orbit-word{position:absolute;left:calc(var(--x)*1%);top:calc(var(--y)*1%);transform:translate(-50%,-50%) rotate(var(--r));border:1px solid #e4e5ec;border-radius:100px;background:#fff;box-shadow:0 3px 3px #1d244903,0 8px 22px #1d244905;padding:11px 20px;font-size:16px;line-height:1.25;white-space:nowrap;display:flex;align-items:center;gap:10px;touch-action:none;z-index:3;transition:left .78s cubic-bezier(.19,1,.22,1),top .78s cubic-bezier(.19,1,.22,1),transform .35s,box-shadow .25s,border-color .25s}
+    .orbit-word:hover{border-color:#bdc9fb;box-shadow:0 6px 22px #314abd0d}
+    .orbit-word.dragging{transition:none;box-shadow:0 12px 25px #23366a16;cursor:grabbing;z-index:6}
+    .orbit-word .symbol{font:15px/1 var(--mono);color:#8f9bbe;letter-spacing:-2px;min-width:14px}
+    .orbit-word[data-word="AI"]{background:var(--bluewash);border-color:#dce4ff;color:#3755cc}
+    .orbit-word[data-word="AI"] .symbol{color:#7088e6;letter-spacing:0}
+    .cat-button{position:absolute;left:50%;top:49%;width:250px;height:250px;transform:translate(-50%,-50%);padding:0;border:0;background:none;border-radius:50%;z-index:2;outline-offset:-24px}
+    .cat-button::before{content:"";position:absolute;width:102px;height:15px;left:50%;bottom:29px;transform:translateX(-50%);border-radius:50%;background:#36477816;filter:blur(8px);z-index:-1;transition:transform .3s}
+    .cat-image{display:block;width:100%;height:100%;object-fit:contain;padding:9px;pointer-events:none;transform:rotate(var(--cat-tilt,0deg));transition:transform .35s cubic-bezier(.2,.8,.3,1);filter:drop-shadow(0 10px 10px #29385a06)}
+    .cat-button:hover .cat-image{transform:translateY(-5px) rotate(-4deg)}
+    .cat-button:active .cat-image{transform:translateY(1px) scale(.95,.92)}
+    .cat-button.nudge .cat-image{animation:nudge .66s ease}
+    @keyframes nudge{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg) translateY(-8px)}60%{transform:rotate(6deg) translateY(-3px)}}
+    .stage-caption{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:13px;line-height:1.6;color:#92949c;margin:0;letter-spacing:.01em;pointer-events:none}
+    .stage-caption span{display:inline-block;transition:opacity .2s}
+    .whisper{position:absolute;left:50%;top:4%;transform:translate(-50%,8px);max-width:100%;padding:9px 15px;background:#202126;color:#fff;border-radius:10px;white-space:nowrap;font-size:13px;line-height:1.5;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;z-index:8}
+    .whisper.visible{opacity:1;transform:translate(-50%,0)}
+    .whisper::after{content:"";position:absolute;left:50%;bottom:-5px;width:10px;height:10px;background:#202126;transform:translateX(-50%) rotate(45deg)}
+    .projects{padding:0 0 33px}
+    .section-label{display:flex;align-items:center;gap:14px;font-size:12px;line-height:1.6;font-weight:400;color:#8a8c95;letter-spacing:.025em;margin:0 0 21px}
+    .section-label::after{content:"";height:1px;flex:1;background:var(--line)}
+    .project-list{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+    .project{width:100%;padding:3px 0 11px;border:0;background:none;text-align:left;display:block;position:relative}
+    .project-number{font:12px/1.6 var(--mono);color:#9a9ca5;margin-bottom:10px;display:block}
+    .project-title{display:flex;align-items:center;justify-content:space-between;font-size:19px;line-height:1.6;font-weight:550;letter-spacing:-.025em}
+    .project-plus{font-size:19px;font-weight:350;color:#8b8e98;transition:transform .3s,color .3s;margin-right:3px}
+    .project-subtitle{display:block;font-size:13px;line-height:1.75;color:#8b8d96;margin-top:4px}
+    .project:hover .project-title{color:var(--accent)}
+    .project:hover .project-plus{color:var(--accent);transform:rotate(90deg)}
+    .footer{display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid var(--line);padding-top:22px;color:#9a9ca4;font-size:12px;line-height:1.7}
+    .footer-note{display:flex;align-items:center;gap:7px}
+    .footer-note .asterisk{font-size:19px;line-height:1;color:var(--accent);transition:transform .55s}
+    .footer-note:hover .asterisk{transform:rotate(150deg)}
+    .footer-year{font-family:var(--mono)}
+    dialog{width:min(640px,calc(100% - 32px));max-height:calc(100dvh - 48px);border:1px solid #e9eaf0;border-radius:22px;padding:32px 40px 27px;background:var(--paper);color:var(--ink);box-shadow:0 25px 100px #15204426;overflow:auto}
+    dialog::backdrop{background:#2125372b;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+    dialog[open]{animation:dialog-enter .25s ease-out}
+    @keyframes dialog-enter{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+    .dialog-top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:25px}
+    .dialog-kicker{font:12px/1.6 var(--mono);color:#888b95;letter-spacing:.04em}
+    .close{display:grid;place-items:center;border:1px solid #e0e3eb;border-radius:50%;width:36px;height:36px;padding:0;background:transparent;font-size:25px;font-weight:300;line-height:1;color:#666b78;flex-shrink:0}
+    .close:hover{background:var(--bluewash);color:var(--accent);border-color:#c9d4ff}
+    .dialog-title{font-size:44px;font-weight:650;line-height:1.22;letter-spacing:-.06em;margin:0 0 21px}
+    .dialog-lede{font-size:21px;font-weight:500;line-height:1.65;margin:0 0 20px;letter-spacing:-.02em}
+    .dialog-copy{font-size:16px;line-height:1.95;color:#71757f;margin:0 0 17px}
+    .detail-list{display:grid;gap:0;margin:26px 0 0;padding:0;list-style:none}
+    .detail-list li{padding:14px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:94px 1fr;gap:12px;font-size:14px;line-height:1.8}
+    .detail-list strong{font-weight:550;color:#363944}
+    .detail-list span{color:#777b85}
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 6px}
+    .tag{display:inline-block;border:1px solid #e0e4ef;background:#f5f7fc;border-radius:6px;padding:4px 9px;font-size:12px;line-height:1.7;color:#727d9b}
+    .dialog-footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;font-size:12px;line-height:1.7;color:#979ba5}
+    kbd{font:11px/1.5 var(--mono);border:1px solid #dde0e8;border-radius:4px;padding:2px 5px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(min-width:1500px){.page{padding-top:46px;padding-bottom:32px}.hero{min-height:575px}.stage{height:400px}.cat-button{width:275px;height:275px}}
+    @media(max-width:1050px){.page{padding:30px 42px 25px}.hero{gap:0;padding:65px 0 56px;min-height:500px}h1{font-size:clamp(65px,8vw,84px)}.bio{font-size:15px}.stage{height:340px}.cat-button{width:220px;height:220px}.orbit-word{padding:10px 15px;font-size:15px;gap:7px}.project-list{gap:23px}.project-title{font-size:17px}}
+    @media(max-width:760px){.page{padding:25px 26px 22px}.header{min-height:38px}.wordmark{font-size:26px}.hero{grid-template-columns:1fr;gap:5px;min-height:0;padding:51px 0 31px}.eyebrow{font-size:11px;letter-spacing:.035em;margin-bottom:21px}h1{font-size:clamp(60px,12.5vw,86px);line-height:1.15;margin-bottom:25px;letter-spacing:-.055em}.bio{font-size:15px;line-height:1.95}.playground{width:min(100%,420px);justify-self:center;margin-top:9px;transform:none}.stage{height:288px}.cat-button{width:207px;height:207px;top:45%}.cat-button::before{bottom:22px;width:82px;height:13px}.orbit-word{padding:10px 15px;font-size:14px;gap:7px}.stage-caption{font-size:12px}.whisper{font-size:12px;top:0}.projects{padding-bottom:27px}.section-label{margin-bottom:18px}.project-list{grid-template-columns:repeat(2,1fr);column-gap:28px;row-gap:16px}.project-number{margin-bottom:5px}.project-title{font-size:17px}.project-subtitle{font-size:12px;margin-top:3px}.project{padding:2px 0 10px}.footer{padding-top:18px;font-size:11px}.footer-note{gap:5px}.about-button{font-size:13px}.header-actions{gap:15px}dialog{padding:24px 24px 21px;border-radius:18px;max-height:calc(100dvh - 32px)}.dialog-title{font-size:38px}.dialog-lede{font-size:19px}.dialog-copy{font-size:15px}.detail-list li{grid-template-columns:80px 1fr;font-size:13px}.dialog-top{margin-bottom:21px}.dialog-footer{margin-top:23px}.tag{font-size:11px}}
+    @media(max-width:360px){.page{padding-left:21px;padding-right:21px}h1{font-size:59px}.bio{font-size:14px}.stage{height:275px}.cat-button{width:190px;height:190px}.orbit-word{font-size:13px;padding:9px 12px}.footer{align-items:flex-start;gap:10px}.footer-note{max-width:200px}.eyebrow{font-size:10px}}
+    .bio,.dialog-copy{font-size:1rem}
+    .about-button,.stage-caption{font-size:.875rem}
+    .detail-list li{font-size:.875rem}
+    .eyebrow,.footer,.tag,kbd{font-size:.75rem}
+    @media(max-width:760px){.orbit-word{padding-left:13px;padding-right:13px}.bio{font-size:1rem}.dialog-copy{font-size:1rem}.stage-caption{font-size:.8125rem}}
+    @media(max-width:360px){.orbit-word .symbol{display:none}.eyebrow{letter-spacing:0}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.cat-image{transform:none!important}}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a class="wordmark" href="#" aria-label="Murphy 首页">murphy<span>.</span></a>
+      <div class="header-actions">
+        <button class="about-button" data-open="about"><span>个人说明书</span><span class="about-icon" aria-hidden="true">i</span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="headline">
+        <div class="intro">
+          <p class="eyebrow">FRONTEND / AI / A LITTLE CURIOSITY</p>
+          <h1 id="headline">把复杂，<br>做<button class="word-button" id="word-button" aria-label="简单，点击换个角度" title="换个角度">简单</button>。</h1>
+          <p class="bio">你好，我是 <strong>murphy</strong>，一名前端负责人。<br>在医疗保障与 AI 之间，<br>把想法做成可用的产品。</p>
+        </div>
+
+        <div class="playground" aria-label="可互动的小猫与四个关键词">
+          <div class="stage" id="stage">
+            <p class="whisper" id="whisper" role="status" aria-live="polite"></p>
+            <button class="orbit-word" data-word="界面" style="--x:20;--y:20;--r:-12deg" aria-label="界面：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">&lt;/&gt;</span>界面</button>
+            <button class="orbit-word" data-word="流程" style="--x:81;--y:59;--r:10deg" aria-label="流程：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">≋</span>流程</button>
+            <button class="orbit-word" data-word="规则" style="--x:17;--y:66;--r:-8deg" aria-label="规则：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">{ }</span>规则</button>
+            <button class="orbit-word" data-word="AI" style="--x:81;--y:18;--r:12deg" aria-label="AI：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">✳</span>AI</button>
+            <button class="cat-button" id="cat-button" aria-label="点击小猫，把四个关键词理顺" title="摸摸我，理顺一下">
+              <img class="cat-image" id="cat-image" src="./cat.png" alt="一只抬着前爪、神情好奇的金渐层小猫" width="300" height="300" draggable="false" fetchpriority="high">
+            </button>
+            <p class="stage-caption"><span id="stage-caption">摸摸小猫，把灵感理顺。</span></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="projects" aria-labelledby="projects-label">
+        <h2 class="section-label" id="projects-label">一些认真做的事</h2>
+        <div class="project-list">
+          <button class="project" data-open="rmc"><span class="project-number">01</span><span class="project-title">数智赔<span class="project-plus" aria-hidden="true">+</span></span><span class="project-subtitle">把理赔流程接起来</span></button>
+          <button class="project" data-open="emed"><span class="project-number">02</span><span class="project-title">医问百通<span class="project-plus" aria-hidden="true">+</span></span><span class="project-subtitle">让医疗保障更好懂</span></button>
+          <button class="project" data-open="ai"><span class="project-number">03</span><span class="project-title">AI 工具<span class="project-plus" aria-hidden="true">+</span></span><span class="project-subtitle">让新能力进入工作流</span></button>
+          <button class="project" data-open="play"><span class="project-number">04</span><span class="project-title">交互实验<span class="project-plus" aria-hidden="true">+</span></span><span class="project-subtitle">给好奇心留个位置</span></button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span class="footer-note"><span class="asterisk" aria-hidden="true">✳</span>认真造东西，顺手玩一下。</span>
+      <span class="footer-year">© <span id="year">2026</span> murphy</span>
+    </footer>
+  </div>
+
+  <dialog id="detail-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-top"><span class="dialog-kicker" id="dialog-kicker"></span><button class="close" id="dialog-close" aria-label="关闭详情" autofocus>×</button></div>
+    <div id="dialog-content"></div>
+    <div class="dialog-footer"><span id="dialog-footer-label">认真做产品，持续保持好奇。</span><span><kbd>ESC</kbd> 关闭</span></div>
+  </dialog>
+  <p class="sr-only" id="announcement" aria-live="polite"></p>
+
+  <script>
+  (() => {
+    'use strict';
+    const $ = (id) => document.getElementById(id);
+    const stage = $('stage');
+    const cat = $('cat-button');
+    const caption = $('stage-caption');
+    const whisper = $('whisper');
+    const words = Array.from(document.querySelectorAll('.orbit-word'));
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const initial = [
+      {x:20,y:20,r:-12},
+      {x:81,y:59,r:10},
+      {x:17,y:66,r:-8},
+      {x:81,y:18,r:12}
+    ];
+    const thoughts = {
+      '界面':'看着舒服，用着顺手。',
+      '流程':'先理顺，再写代码。',
+      '规则':'该确定的，交给规则。',
+      'AI':'用新工具，解真问题。'
+    };
+    let tidy = false;
+    let whisperTimer;
+    let lastTrigger = null;
+
+    function say(message, duration=2600) {
+      clearTimeout(whisperTimer);
+      whisper.textContent = message;
+      whisper.classList.add('visible');
+      whisperTimer = setTimeout(() => whisper.classList.remove('visible'), duration);
+    }
+
+    function place(el, x, y, r=0) {
+      el.style.setProperty('--x', x.toFixed(2));
+      el.style.setProperty('--y', y.toFixed(2));
+      el.style.setProperty('--r', r.toFixed(2) + 'deg');
+    }
+
+    function rowPositions() {
+      const rect=stage.getBoundingClientRect();
+      const gap=Math.min(9,rect.width*.018);
+      const widths=words.map(el=>el.offsetWidth);
+      const total=widths.reduce((a,b)=>a+b,0)+gap*3;
+      let left=(rect.width-total)/2;
+      // Reading order: interface, flow, rules, AI.
+      return widths.map(w=>{const center=(left+w/2)/rect.width*100;left+=w+gap;return center;});
+    }
+
+    function tidyWords() {
+      tidy = !tidy;
+      if(tidy) {
+        const positions=rowPositions();
+        words.forEach((el,i)=>place(el,positions[i],81,0));
+        caption.textContent='收拾好了。也可以拖着玩。';
+        cat.setAttribute('aria-label','再次点击小猫，把关键词轻轻拨散');
+        say('好了，又简单了一点。');
+      } else {
+        words.forEach((el,i)=>place(el,initial[i].x,initial[i].y,initial[i].r));
+        caption.textContent='偶尔散开，也会有新想法。';
+        cat.setAttribute('aria-label','点击小猫，把四个关键词理顺');
+        say('整齐很好。好奇也很好。');
+      }
+      cat.classList.remove('nudge');
+      void cat.offsetWidth;
+      cat.classList.add('nudge');
+    }
+    cat.addEventListener('click',tidyWords);
+    cat.addEventListener('animationend',()=>cat.classList.remove('nudge'));
+
+    for (const word of words) {
+      let drag = null;
+      let suppressClick=false;
+      word.addEventListener('pointerdown',(event)=>{
+        if(event.button!==0)return;
+        const rect=stage.getBoundingClientRect();
+        drag={pointer:event.pointerId,startX:event.clientX,startY:event.clientY,x:parseFloat(word.style.getPropertyValue('--x')),y:parseFloat(word.style.getPropertyValue('--y')),moved:false,rect};
+        word.setPointerCapture(event.pointerId);
+      });
+      word.addEventListener('pointermove',(event)=>{
+        if(!drag||drag.pointer!==event.pointerId)return;
+        const dx=event.clientX-drag.startX;
+        const dy=event.clientY-drag.startY;
+        if(Math.abs(dx)+Math.abs(dy)>5)drag.moved=true;
+        if(!drag.moved)return;
+        word.classList.add('dragging');
+        tidy=false;
+        cat.setAttribute('aria-label','点击小猫，把四个关键词理顺');
+        const padX=(word.offsetWidth/2+5)/drag.rect.width*100;
+        const padY=(word.offsetHeight/2+5)/drag.rect.height*100;
+        const x=Math.min(100-padX,Math.max(padX,drag.x+dx/drag.rect.width*100));
+        const y=Math.min(86,Math.max(padY,drag.y+dy/drag.rect.height*100));
+        place(word,x,y,Math.max(-15,Math.min(15,dx*.06)));
+      });
+      function endDrag(event) {
+        if(!drag||event.pointerId!==drag.pointer)return;
+        suppressClick=drag.moved;
+        if(drag.moved)caption.textContent='想法有点乱？小猫随时帮忙。';
+        word.classList.remove('dragging');
+        if(word.hasPointerCapture(event.pointerId))word.releasePointerCapture(event.pointerId);
+        drag=null;
+        if(event.type==='pointercancel')suppressClick=false;
+      }
+      word.addEventListener('pointerup',endDrag);
+      word.addEventListener('pointercancel',endDrag);
+      word.addEventListener('lostpointercapture',()=>{word.classList.remove('dragging');drag=null;});
+      word.addEventListener('click',(event)=>{
+        if(suppressClick&&event.detail!==0){suppressClick=false;return;}
+        say(thoughts[word.dataset.word]);
+      });
+      word.addEventListener('keydown',(event)=>{
+        if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home'].includes(event.key))return;
+        event.preventDefault();
+        const rect=stage.getBoundingClientRect();
+        let x=parseFloat(word.style.getPropertyValue('--x'));
+        let y=parseFloat(word.style.getPropertyValue('--y'));
+        if(event.key==='Home'){
+          const state=initial[words.indexOf(word)];
+          place(word,state.x,state.y,state.r);
+        }else{
+          const step=event.shiftKey?8:3;
+          if(event.key==='ArrowLeft')x-=step;
+          if(event.key==='ArrowRight')x+=step;
+          if(event.key==='ArrowUp')y-=step;
+          if(event.key==='ArrowDown')y+=step;
+          const pad=(word.offsetWidth/2+5)/rect.width*100;
+          place(word,Math.max(pad,Math.min(100-pad,x)),Math.max(9,Math.min(86,y)),0);
+        }
+        tidy=false;
+        cat.setAttribute('aria-label','点击小猫，把四个关键词理顺');
+      });
+    }
+
+    window.addEventListener('resize',()=>{
+      if(tidy){const p=rowPositions();words.forEach((el,i)=>place(el,p[i],81,0));}
+      else{
+        const rect=stage.getBoundingClientRect();
+        words.forEach(el=>{
+          const pad=(el.offsetWidth/2+5)/rect.width*100;
+          const x=parseFloat(el.style.getPropertyValue('--x'));
+          if(x<pad||x>100-pad)place(el,Math.max(pad,Math.min(100-pad,x)),parseFloat(el.style.getPropertyValue('--y')),0);
+        });
+      }
+    });
+
+    const adjective=$('word-button');
+    const variations=[['简单','把复杂留给系统，把简单留给人。'],['好用','能用，还要用着顺手。'],['好玩','认真之外，也留一点有趣。'],['清楚','说清楚，想明白，再动手。']];
+    let adjectiveIndex=0;
+    adjective.addEventListener('click',()=>{
+      adjectiveIndex=(adjectiveIndex+1)%variations.length;
+      const [text,note]=variations[adjectiveIndex];
+      adjective.textContent=text;
+      adjective.setAttribute('aria-label',text+'，点击换个角度');
+      adjective.classList.remove('changed');
+      void adjective.offsetWidth;
+      adjective.classList.add('changed');
+      $('announcement').textContent=note;
+      say(note,2800);
+    });
+
+    const entries={
+      about:{kicker:'A SHORT USER MANUAL',title:'你好，我是 murphy。',lede:'从前端出发，往问题里面走。',paragraphs:['我长期参与医疗保障产品建设。写界面，也梳理界面背后的业务、规则与流程；关注 AI 如何进入实际工作，变成能用、可维护的产品。','喜欢直接的表达、准确的细节，也喜欢能让人多玩两下的网页。'],rows:[['工作重心','前端工程、医疗保障产品、AI 应用。'],['做事习惯','先理清业务，再把流程和交互做顺。'],['审美偏好','信息少一点，细节准一点，有趣一点。'],['常用工具','Vue 3 · TypeScript · Vite · UniApp'] ],footer:'这份说明书，持续更新中。'},
+      rmc:{kicker:'01 / HEALTHCARE & INSURANCE',title:'数智赔',lede:'让复杂的理赔流程，变得清楚、连贯。',paragraphs:['参与医疗理赔与协同结算产品建设，把授权、就医信息、审核与支付等环节，转成可操作的业务界面。','关注患者端与业务工作台如何衔接，让使用者知道：现在走到哪一步，接下来需要做什么。'],rows:[['参与方向','传统理赔、直赔、一站式结算及相关用户端。'],['关注重点','业务流程、信息呈现、状态衔接与操作体验。']],tags:['医疗保障','业务协同','前端工程'],footer:'团队项目 · 聚焦产品与前端建设'},
+      emed:{kicker:'02 / A MORE HELPFUL INTERFACE',title:'医问百通',lede:'让专业的医疗保障信息，更容易找到和理解。',paragraphs:['围绕药品、医院、医保与保障问题，参与查询工具、知识问答和用户端服务建设。','继续探索「小问」的交互式对话：把答案里的药品、医院与保障信息，变成可以继续查看和操作的内容。'],rows:[['产品场景','药品查询、医院查询、保障问答与服务权益。'],['探索方向','AI 对话、结构化结果、Web 与小程序体验。']],tags:['医问百通 · 小问','交互式对话','UniApp'],footer:'团队项目 · 产品建设与交互探索'},
+      ai:{kicker:'03 / TOOLS THAT DO REAL WORK',title:'AI 工具',lede:'新能力，接上真实的工作。',paragraphs:['探索知识库、规则校验、工作流与统一模型接入，关心 AI 如何嵌入现有系统，也关心它的边界在哪里。','需要确定性的地方，用明确规则；需要理解与检索的地方，让模型参与。让结果能解释，工具能维护。'],rows:[['持续探索','行业知识库、智能体编排与企业 AI 工具。'],['关心的问题','能否接入业务、复用能力、追踪过程并持续维护。']],tags:['知识库','规则与工作流','AI Gateway'],footer:'探索方向 · 持续实践'},
+      play:{kicker:'04 / SERIOUS ABOUT PLAY',title:'交互实验',lede:'认真造东西，顺手玩一下。',paragraphs:['从可复用的前端组件，到一间宋式街角店铺、一只可以互动的毛绒小动物，给好奇心留一个具体的出口。','喜欢简洁的画面，也愿意为了一个动作、一处排版和一点材质，再调整一次。'],rows:[['实验题目','三维小场景、可互动角色、生成式界面。'],['偏爱细节','宋式美学、微缩景观、细腻材质与轻巧动效。']],tags:['Three.js','生成式 UI','视觉与交互'],footer:'个人探索 · 好奇心在场'}
+    };
+
+    const dialog=$('detail-dialog');
+    function addText(tag,className,text,parent) {
+      const el=document.createElement(tag);
+      if(className)el.className=className;
+      el.textContent=text;
+      parent.appendChild(el);
+      return el;
+    }
+    function openDetail(key,trigger) {
+      const entry=entries[key];
+      if(!entry)return;
+      lastTrigger=trigger;
+      $('dialog-kicker').textContent=entry.kicker;
+      $('dialog-footer-label').textContent=entry.footer;
+      const content=$('dialog-content');
+      content.replaceChildren();
+      const title=addText('h2','dialog-title',entry.title,content);
+      title.id='dialog-title';
+      addText('p','dialog-lede',entry.lede,content);
+      entry.paragraphs.forEach(p=>addText('p','dialog-copy',p,content));
+      if(entry.rows){
+        const list=document.createElement('ul');
+        list.className='detail-list';
+        entry.rows.forEach(([name,description])=>{
+          const item=document.createElement('li');
+          addText('strong','',name,item);
+          addText('span','',description,item);
+          list.appendChild(item);
+        });
+        content.appendChild(list);
+      }
+      if(entry.tags){
+        const tags=document.createElement('div');
+        tags.className='tags';
+        entry.tags.forEach(t=>addText('span','tag',t,tags));
+        content.appendChild(tags);
+      }
+      document.body.style.overflow='hidden';
+      dialog.showModal();
+      dialog.scrollTop=0;
+    }
+    document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>openDetail(button.dataset.open,button)));
+    $('dialog-close').addEventListener('click',()=>dialog.close());
+    dialog.addEventListener('click',(event)=>{
+      if(event.target!==dialog)return;
+      const r=dialog.getBoundingClientRect();
+      if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();
+    });
+    dialog.addEventListener('close',()=>{
+      document.body.style.overflow='';
+      if(lastTrigger)lastTrigger.focus({preventScroll:true});
+    });
+    document.querySelector('.wordmark').addEventListener('click',(event)=>{
+      event.preventDefault();
+      adjectiveIndex=0;
+      adjective.textContent='简单';
+      adjective.setAttribute('aria-label','简单，点击换个角度');
+      tidy=false;
+      words.forEach((el,i)=>place(el,initial[i].x,initial[i].y,initial[i].r));
+      caption.textContent='摸摸小猫，把灵感理顺。';
+      cat.setAttribute('aria-label','点击小猫，把四个关键词理顺');
+      whisper.classList.remove('visible');
+      window.scrollTo({top:0,behavior:reducedMotion.matches?'instant':'smooth'});
+    });
+    $('year').textContent=new Date().getFullYear();
+  })();
+  </script>
+</body>
+</html>
