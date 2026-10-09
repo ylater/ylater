@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fbfbfc">
-  <meta name="description" content="你好，我是 Murphy。从前端出发，参与医疗保障产品建设，探索 AI 与交互的新用法。把复杂，做简单。">
+  <meta name="description" content="你好，我是 Murphy。关注医疗保障、AI 与产品实践，把想法做成可用的产品。把复杂，做简单。">
   <meta property="og:title" content="Murphy — 把复杂，做简单。">
-  <meta property="og:description" content="前端、医疗保障与 AI。认真造东西，顺手玩一下。">
+  <meta property="og:description" content="产品、医疗保障与 AI。认真造东西，顺手玩一下。">
   <meta property="og:type" content="website">
   <title>Murphy — 把复杂，做简单。</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%232e53eb'/%3E%3Ctext x='11' y='46' font-family='Arial,sans-serif' font-size='44' font-weight='700' fill='white'%3Em%3C/text%3E%3C/svg%3E">
@@ -108,6 +108,8 @@
     @media(max-width:360px){.orbit-word .symbol{display:none}.eyebrow{letter-spacing:0}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.cat-image{transform:none!important}}
   </style>
+  <link rel="stylesheet" href="./pet.css">
+  <script src="./pet.js" defer></script>
 </head>
 <body>
   <div class="page">
@@ -121,22 +123,33 @@
     <main>
       <section class="hero" aria-labelledby="headline">
         <div class="intro">
-          <p class="eyebrow">FRONTEND / AI / A LITTLE CURIOSITY</p>
+          <p class="eyebrow">PRODUCT / AI / A LITTLE CURIOSITY</p>
           <h1 id="headline">把复杂，<br>做<button class="word-button" id="word-button" aria-label="简单，点击换个角度" title="换个角度">简单</button>。</h1>
-          <p class="bio">你好，我是 <strong>murphy</strong>，一名前端负责人。<br>在医疗保障与 AI 之间，<br>把想法做成可用的产品。</p>
+          <p class="bio">你好，我是 <strong>murphy</strong>。<br>在医疗保障与 AI 之间，<br>把想法做成可用的产品。</p>
         </div>
 
         <div class="playground" aria-label="可互动的小猫与四个关键词">
+          <div class="pet-controls">
+            <button class="pet-menu-toggle" id="pet-menu-toggle" aria-label="小猫的互动菜单" aria-haspopup="menu" aria-expanded="false" aria-controls="pet-menu">···</button>
+            <div class="pet-menu" id="pet-menu" role="menu" aria-label="小猫的互动" hidden>
+              <button role="menuitem" data-pet-action="tidy">理顺关键词</button>
+              <button role="menuitem" data-pet-action="nap">打个小盹</button>
+              <button role="menuitem" data-pet-action="home">回到这里</button>
+              <button role="menuitemcheckbox" aria-checked="false" data-pet-action="pause">暂停走动</button>
+            </div>
+          </div>
           <div class="stage" id="stage">
             <p class="whisper" id="whisper" role="status" aria-live="polite"></p>
             <button class="orbit-word" data-word="界面" style="--x:20;--y:20;--r:-12deg" aria-label="界面：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">&lt;/&gt;</span>界面</button>
             <button class="orbit-word" data-word="流程" style="--x:81;--y:59;--r:10deg" aria-label="流程：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">≋</span>流程</button>
             <button class="orbit-word" data-word="规则" style="--x:17;--y:66;--r:-8deg" aria-label="规则：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">{ }</span>规则</button>
             <button class="orbit-word" data-word="AI" style="--x:81;--y:18;--r:12deg" aria-label="AI：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">✳</span>AI</button>
-            <button class="cat-button" id="cat-button" aria-label="点击小猫，把四个关键词理顺" title="摸摸我，理顺一下">
+            <button class="cat-button" id="cat-button" aria-label="小猫：点击互动，可拖动；方向键让它走动" title="可以摸摸，也可以拎起来">
               <img class="cat-image" id="cat-image" src="./cat.png" alt="一只抬着前爪、神情好奇的金渐层小猫" width="300" height="300" draggable="false" fetchpriority="high">
+              <canvas class="pet-canvas" id="pet-canvas" width="384" height="256" aria-hidden="true"></canvas>
+              <span class="pet-state" id="pet-state" aria-hidden="true">发呆中</span>
             </button>
-            <p class="stage-caption"><span id="stage-caption">摸摸小猫，把灵感理顺。</span></p>
+            <p class="stage-caption"><span id="stage-caption">可以摸摸，也可以拎起来。</span></p>
           </div>
         </div>
       </section>
@@ -220,20 +233,15 @@
         const positions=rowPositions();
         words.forEach((el,i)=>place(el,positions[i],81,0));
         caption.textContent='收拾好了。也可以拖着玩。';
-        cat.setAttribute('aria-label','再次点击小猫，把关键词轻轻拨散');
         say('好了，又简单了一点。');
       } else {
         words.forEach((el,i)=>place(el,initial[i].x,initial[i].y,initial[i].r));
         caption.textContent='偶尔散开，也会有新想法。';
-        cat.setAttribute('aria-label','点击小猫，把四个关键词理顺');
         say('整齐很好。好奇也很好。');
       }
-      cat.classList.remove('nudge');
-      void cat.offsetWidth;
-      cat.classList.add('nudge');
     }
-    cat.addEventListener('click',tidyWords);
-    cat.addEventListener('animationend',()=>cat.classList.remove('nudge'));
+    document.addEventListener('murphy:pet-tidy',tidyWords);
+    document.addEventListener('murphy:pet-say',event=>say(event.detail.message,event.detail.duration||2600));
 
     for (const word of words) {
       let drag = null;
@@ -252,7 +260,6 @@
         if(!drag.moved)return;
         word.classList.add('dragging');
         tidy=false;
-        cat.setAttribute('aria-label','点击小猫，把四个关键词理顺');
         const padX=(word.offsetWidth/2+5)/drag.rect.width*100;
         const padY=(word.offsetHeight/2+5)/drag.rect.height*100;
         const x=Math.min(100-padX,Math.max(padX,drag.x+dx/drag.rect.width*100));
@@ -274,6 +281,7 @@
       word.addEventListener('click',(event)=>{
         if(suppressClick&&event.detail!==0){suppressClick=false;return;}
         say(thoughts[word.dataset.word]);
+        document.dispatchEvent(new CustomEvent('murphy:pet-react',{detail:{kind:'curious'}}));
       });
       word.addEventListener('keydown',(event)=>{
         if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home'].includes(event.key))return;
@@ -294,7 +302,6 @@
           place(word,Math.max(pad,Math.min(100-pad,x)),Math.max(9,Math.min(86,y)),0);
         }
         tidy=false;
-        cat.setAttribute('aria-label','点击小猫，把四个关键词理顺');
       });
     }
 
@@ -323,14 +330,15 @@
       adjective.classList.add('changed');
       $('announcement').textContent=note;
       say(note,2800);
+      document.dispatchEvent(new CustomEvent('murphy:pet-react',{detail:{kind:'happy'}}));
     });
 
     const entries={
-      about:{kicker:'A SHORT USER MANUAL',title:'你好，我是 murphy。',lede:'从前端出发，往问题里面走。',paragraphs:['我长期参与医疗保障产品建设。写界面，也梳理界面背后的业务、规则与流程；关注 AI 如何进入实际工作，变成能用、可维护的产品。','喜欢直接的表达、准确的细节，也喜欢能让人多玩两下的网页。'],rows:[['工作重心','前端工程、医疗保障产品、AI 应用。'],['做事习惯','先理清业务，再把流程和交互做顺。'],['审美偏好','信息少一点，细节准一点，有趣一点。'],['常用工具','Vue 3 · TypeScript · Vite · UniApp'] ],footer:'这份说明书，持续更新中。'},
-      rmc:{kicker:'01 / HEALTHCARE & INSURANCE',title:'数智赔',lede:'让复杂的理赔流程，变得清楚、连贯。',paragraphs:['参与医疗理赔与协同结算产品建设，把授权、就医信息、审核与支付等环节，转成可操作的业务界面。','关注患者端与业务工作台如何衔接，让使用者知道：现在走到哪一步，接下来需要做什么。'],rows:[['参与方向','传统理赔、直赔、一站式结算及相关用户端。'],['关注重点','业务流程、信息呈现、状态衔接与操作体验。']],tags:['医疗保障','业务协同','前端工程'],footer:'团队项目 · 聚焦产品与前端建设'},
+      about:{kicker:'A SHORT USER MANUAL',title:'你好，我是 murphy。',lede:'理解问题，把想法做成产品。',paragraphs:['我长期参与医疗保障产品建设。梳理业务、规则与流程，打磨产品与交互；关注 AI 如何进入实际工作，变成能用、可维护的产品。','喜欢直接的表达、准确的细节，也喜欢能让人多玩两下的网页。'],rows:[['工作重心','产品实践、医疗保障、AI 应用。'],['做事习惯','先理清业务，再把流程和交互做顺。'],['审美偏好','信息少一点，细节准一点，有趣一点。'],['持续探索','知识库 · 规则引擎 · 智能体 · 交互体验'] ],footer:'这份说明书，持续更新中。'},
+      rmc:{kicker:'01 / HEALTHCARE & INSURANCE',title:'数智赔',lede:'让复杂的理赔流程，变得清楚、连贯。',paragraphs:['参与医疗理赔与协同结算产品建设，把授权、就医信息、审核与支付等环节，转成可操作的业务界面。','关注患者端与业务工作台如何衔接，让使用者知道：现在走到哪一步，接下来需要做什么。'],rows:[['参与方向','传统理赔、直赔、一站式结算及相关用户端。'],['关注重点','业务流程、信息呈现、状态衔接与操作体验。']],tags:['医疗保障','业务协同','产品建设'],footer:'团队项目 · 聚焦产品与业务协同'},
       emed:{kicker:'02 / A MORE HELPFUL INTERFACE',title:'医问百通',lede:'让专业的医疗保障信息，更容易找到和理解。',paragraphs:['围绕药品、医院、医保与保障问题，参与查询工具、知识问答和用户端服务建设。','继续探索「小问」的交互式对话：把答案里的药品、医院与保障信息，变成可以继续查看和操作的内容。'],rows:[['产品场景','药品查询、医院查询、保障问答与服务权益。'],['探索方向','AI 对话、结构化结果、Web 与小程序体验。']],tags:['医问百通 · 小问','交互式对话','UniApp'],footer:'团队项目 · 产品建设与交互探索'},
       ai:{kicker:'03 / TOOLS THAT DO REAL WORK',title:'AI 工具',lede:'新能力，接上真实的工作。',paragraphs:['探索知识库、规则校验、工作流与统一模型接入，关心 AI 如何嵌入现有系统，也关心它的边界在哪里。','需要确定性的地方，用明确规则；需要理解与检索的地方，让模型参与。让结果能解释，工具能维护。'],rows:[['持续探索','行业知识库、智能体编排与企业 AI 工具。'],['关心的问题','能否接入业务、复用能力、追踪过程并持续维护。']],tags:['知识库','规则与工作流','AI Gateway'],footer:'探索方向 · 持续实践'},
-      play:{kicker:'04 / SERIOUS ABOUT PLAY',title:'交互实验',lede:'认真造东西，顺手玩一下。',paragraphs:['从可复用的前端组件，到一间宋式街角店铺、一只可以互动的毛绒小动物，给好奇心留一个具体的出口。','喜欢简洁的画面，也愿意为了一个动作、一处排版和一点材质，再调整一次。'],rows:[['实验题目','三维小场景、可互动角色、生成式界面。'],['偏爱细节','宋式美学、微缩景观、细腻材质与轻巧动效。']],tags:['Three.js','生成式 UI','视觉与交互'],footer:'个人探索 · 好奇心在场'}
+      play:{kicker:'04 / SERIOUS ABOUT PLAY',title:'交互实验',lede:'认真造东西，顺手玩一下。',paragraphs:['从可复用的交互组件，到一间宋式街角店铺、一只可以互动的毛绒小动物，给好奇心留一个具体的出口。','喜欢简洁的画面，也愿意为了一个动作、一处排版和一点材质，再调整一次。'],rows:[['实验题目','三维小场景、可互动角色、生成式界面。'],['偏爱细节','宋式美学、微缩景观、细腻材质与轻巧动效。']],tags:['Three.js','生成式 UI','视觉与交互'],footer:'个人探索 · 好奇心在场'}
     };
 
     const dialog=$('detail-dialog');
@@ -373,6 +381,7 @@
       document.body.style.overflow='hidden';
       dialog.showModal();
       dialog.scrollTop=0;
+      document.dispatchEvent(new CustomEvent('murphy:pet-react',{detail:{kind:'review'}}));
     }
     document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>openDetail(button.dataset.open,button)));
     $('dialog-close').addEventListener('click',()=>dialog.close());
@@ -384,6 +393,7 @@
     dialog.addEventListener('close',()=>{
       document.body.style.overflow='';
       if(lastTrigger)lastTrigger.focus({preventScroll:true});
+      document.dispatchEvent(new CustomEvent('murphy:pet-react',{detail:{kind:'wave'}}));
     });
     document.querySelector('.wordmark').addEventListener('click',(event)=>{
       event.preventDefault();
@@ -392,10 +402,10 @@
       adjective.setAttribute('aria-label','简单，点击换个角度');
       tidy=false;
       words.forEach((el,i)=>place(el,initial[i].x,initial[i].y,initial[i].r));
-      caption.textContent='摸摸小猫，把灵感理顺。';
-      cat.setAttribute('aria-label','点击小猫，把四个关键词理顺');
+      caption.textContent='可以摸摸，也可以拎起来。';
       whisper.classList.remove('visible');
       window.scrollTo({top:0,behavior:reducedMotion.matches?'instant':'smooth'});
+      document.dispatchEvent(new CustomEvent('murphy:pet-home'));
     });
     $('year').textContent=new Date().getFullYear();
   })();

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "cellWidth": 384,
+  "cellHeight": 256,
+  "frameCount": 6,
+  "states": [
+    "idle",
+    "walk",
+    "reactions"
+  ],
+  "source": "Original image-generated golden cat frames"
+}
