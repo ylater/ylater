@@ -1,59 +1,44 @@
-# Murphy 个人站点
+# 开发说明
 
-从现有 Sites 源码仓库迁入，保留原有页面、交互、猫咪动画与原始素材。采用原生 HTML、CSS、JavaScript，无运行时 npm 依赖。
+个人网站：[www.ylater.com](https://www.ylater.com)。本仓库的 `README.md` 用于 GitHub 个人主页；本文件介绍网站开发。
 
-## 项目与改造文档
+## 本地运行
 
-功能升级和重构前，请阅读 [项目文档导航](README.md)，其中包含项目现状、模块与素材契约、升级建议和验收清单。
-
-## 本地开发
-
-需要 Node.js 22 或更高版本。
+需要 Node.js 22+。
 
 ```sh
 npm ci
 npm run dev
 ```
 
-访问 http://127.0.0.1:5173。编辑源码后刷新页面查看变化；开发服务不包含自动热更新。使用 `npm run dev -- --port 3000` 指定端口。
+访问 http://127.0.0.1:5173。修改源码后刷新；开发服务器不做热更新。指定其他端口：`npm run dev -- --port 5174`。
 
-## 检查和构建
+## 检查与构建
 
 ```sh
 npm run check
+npm test
 npm run build
+npm run verify
 npm run preview
 ```
 
-`check` 检查 JavaScript 语法，`build` 将源码和静态资源复制到 `dist/`，`preview` 在本地提供构建产物。没有 TypeScript，因此没有 typecheck。UI、响应式布局和交互需要人工验证。
+`check` 检查活动脚本语法；`test` 执行 Node 单元测试；`build` 重建静态产物；`verify` 校验产物引用与模块 MIME；`preview` 在本机提供构建后的站点。未配置独立 lint 或 TypeScript typecheck。
 
-## 工程结构
+构建不等于发布。按静态网站部署 `dist/`，现有域名为 www.ylater.com。静态主机需要将 `.mjs` 提供为 JavaScript MIME 类型（通常默认支持）。
 
-- `src/index.html`：页面结构与元信息。
-- `src/styles.css`：页面样式。
-- `src/main.js`：页面交互。
-- `src/flow-play.js`：一站式理赔服务流程小挑战。
-- `src/pet.js`、`src/pet.css`：猫咪动画逻辑与样式。
-- `public/`：图片、动画图集及图集描述文件。
-- `artwork/pet-strips/`：猫咪动画原始素材。
-- `scripts/`：开发服务和构建脚本。
-- `tools/prepare_pet_assets.py`：可选的原始素材图集处理工具。
-- `.openai/hosting.json`：原 Sites 项目关联，静态输出目录为 `dist`。
+## 数据与隐私
 
-构建会重新生成 `dist/`，请修改 `src/` 或 `public/`，不要直接修改产物。`dist/` 可由任意静态服务器托管。本地构建不会更新线上站点。
+- 所有海报生成在浏览器本地完成，没有真实 AI API 调用，不需要密钥。
+- 本机收藏使用 IndexedDB，最多 24 个配方。重复保存更新顺序；满额时提示用户主动删除，不覆盖旧作。
+- 收藏不跨设备同步，清除浏览器网站数据会移除收藏。
+- 分享链接包含短句和生成参数，请勿填入不希望公开的内容。
+- 浏览器禁用存储时仍可生成、分享和下载。
 
-## 可选：重新处理猫咪图集
+## 结构与素材
 
-现有图集已包含在 `public/pet/` 中，开发和构建不需要 Python。若需要重新处理已有素材：
+模块职责见 [项目现状](project-overview.md)，主视觉原生生成记录见 [图片素材](image-assets.md)，调研见 [dev 重设计](redesign-dev.md)。
 
-```sh
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements-assets.txt
-python tools/prepare_pet_assets.py --sources artwork/pet-strips --out public/pet --qa .asset-qa
-npm run build
-```
+旧 `artwork/pet-strips/`、`public/pet/`、`src/pet.js`、`src/pet.css` 与 `tools/prepare_pet_assets.py` 保留为上一版角色素材及实现参考，当前页面不加载。处理旧素材的可选 Python 依赖见 `requirements-assets.txt`；网站开发和构建不需要 Python。
 
-该工具仅处理已有图片，不调用图片生成 API。
-
-网站：https://www.ylater.com
+本版浏览器检查截图和临时验收脚本存放于被 Git 忽略的 `output/playwright/`。UI 验收记录见 [验收清单](acceptance.md)。

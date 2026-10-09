@@ -3,99 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fbfbfc">
-  <meta name="description" content="你好，我是 Murphy。聚焦商业保险理赔的技术与服务应用，探索 AI 与产品实践。把复杂，做简单。">
-  <meta property="og:title" content="Murphy — 把复杂，做简单。">
-  <meta property="og:description" content="商业保险理赔、技术应用与 AI。认真造东西，顺手玩一下。">
+  <meta name="theme-color" content="#f8f9f6">
+  <meta name="description" content="你好，我是 Murphy。构建商业保险理赔相关的技术与服务应用，也用 AI、代码和一点好奇心，做些好玩的东西。">
+  <meta property="og:title" content="Murphy · 把复杂，玩明白。">
+  <meta property="og:description" content="认真做事，放肆好奇。一张可以动手玩的个人主页。">
+  <meta property="og:url" content="https://www.ylater.com">
   <meta property="og:type" content="website">
-  <title>Murphy — 把复杂，做简单。</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%232e53eb'/%3E%3Ctext x='11' y='46' font-family='Arial,sans-serif' font-size='44' font-weight='700' fill='white'%3Em%3C/text%3E%3C/svg%3E">
+  <link rel="canonical" href="https://www.ylater.com">
+  <title>Murphy · 把复杂，玩明白。</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./pet.css">
-  <script src="./pet.js" defer></script>
+  <script type="module" src="./main.js"></script>
+  <script type="module" src="./studio.mjs"></script>
+  <script src="./flow-play.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">跳到正文</a>
   <div class="page">
     <header class="header">
-      <a class="wordmark" href="#" aria-label="Murphy 首页">Murphy<span>.</span></a>
-      <div class="header-actions">
-        <button class="about-button" data-open="about"><span>个人说明书</span><span class="about-icon" aria-hidden="true">i</span></button>
-      </div>
+      <a class="wordmark" href="#" aria-label="Murphy 首页">Murphy<span aria-hidden="true">*</span></a>
+      <nav aria-label="主导航"><button class="text-button" data-open="about">关于我</button><a href="https://github.com/ylater" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a class="nav-play" href="#studio">玩一把 <span aria-hidden="true">↘</span></a></nav>
     </header>
-
-    <main>
+    <main id="main">
       <section class="hero" aria-labelledby="headline">
-        <div class="intro">
-          <p class="eyebrow">PRODUCT / AI / A LITTLE CURIOSITY</p>
-          <h1 id="headline">把复杂，<br>做<button class="word-button" id="word-button" aria-label="简单，点击换个角度" title="换个角度">简单</button>。</h1>
-          <p class="bio">你好，我是 <strong>Murphy</strong>。<br>聚焦商业保险理赔，<br>把技术做成好用的产品与服务。</p>
-        </div>
-
-        <div class="playground" aria-label="可互动的小猫与四个关键词">
-          <div class="pet-controls">
-            <button class="pet-menu-toggle" id="pet-menu-toggle" aria-label="小猫的互动菜单" aria-haspopup="menu" aria-expanded="false" aria-controls="pet-menu">···</button>
-            <div class="pet-menu" id="pet-menu" role="menu" aria-label="小猫的互动" hidden>
-              <button role="menuitem" data-pet-action="tidy">理顺关键词</button>
-              <button role="menuitem" data-pet-action="nap">打个小盹</button>
-              <button role="menuitem" data-pet-action="home">回到这里</button>
-              <button role="menuitemcheckbox" aria-checked="false" data-pet-action="pause">暂停走动</button>
-            </div>
-          </div>
-          <div class="stage" id="stage">
-            <p class="whisper" id="whisper" role="status" aria-live="polite"></p>
-            <button class="orbit-word" data-word="界面" style="--x:20;--y:20;--r:-12deg" aria-label="界面：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">&lt;/&gt;</span>界面</button>
-            <button class="orbit-word" data-word="流程" style="--x:81;--y:59;--r:10deg" aria-label="流程：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">≋</span>流程</button>
-            <button class="orbit-word" data-word="规则" style="--x:17;--y:66;--r:-8deg" aria-label="规则：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">{ }</span>规则</button>
-            <button class="orbit-word" data-word="AI" style="--x:81;--y:18;--r:12deg" aria-label="AI：可拖动，或点击看看我的想法"><span class="symbol" aria-hidden="true">✳</span>AI</button>
-            <button class="cat-button" id="cat-button" aria-label="核验橘：点击互动，可拖动；方向键让它走动" title="可以摸摸，也可以拎起来">
-              <img class="cat-image" id="cat-image" src="./pet/heyanju-idle.png" alt="核验橘，一只戴蓝色项圈的橘猫" width="192" height="208" draggable="false" fetchpriority="high">
-              <canvas class="pet-canvas" id="pet-canvas" width="192" height="208" aria-hidden="true"></canvas>
-              <span class="pet-state" id="pet-state" aria-hidden="true">发呆中</span>
-            </button>
-            <p class="stage-caption"><span id="stage-caption">可以摸摸，也可以拎起来。</span></p>
-          </div>
-        </div>
+        <div class="hero-copy"><p class="hello">你好，我是 Murphy。</p><h1 id="headline">把复杂，<br><span class="headline-play">玩明白<svg viewBox="0 0 320 24" aria-hidden="true"><path d="M6 16Q150 0 311 12M35 21Q178 9 284 17"/></svg></span>。</h1><p class="bio">在商业保险理赔里，把流程接起来。<br>在 AI 和代码里，把好奇心放出来。</p><a class="hero-link" href="#work">认真做的事 <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-object"><button class="mascot" id="mascot" aria-label="戳一下核验橘，看看它的反应"><img src="./art/murphy-cat.png" alt="核验橘，一只趴在金属环里的橘猫" width="1024" height="1024" fetchpriority="high" draggable="false"></button><p class="mascot-message" id="mascot-message" role="status" aria-live="polite">核验橘在此。戳一下？</p><span class="object-caption" aria-hidden="true">好奇心，套不住。</span></div>
       </section>
 
-      <section class="projects" aria-labelledby="projects-label">
-        <h2 class="section-label" id="projects-label">一些认真做的事</h2>
-        <div class="project-list">
-          <button class="project" data-open="rmc"><span class="project-number">01</span><span class="project-title">数智赔<span class="project-plus" aria-hidden="true">+</span></span><span class="project-subtitle">把理赔流程接起来</span></button>
-          <button class="project" data-open="emed"><span class="project-number">02</span><span class="project-title">医问百通<span class="project-plus" aria-hidden="true">+</span></span><span class="project-subtitle">让专业信息连接服务</span></button>
-          <button class="project" data-open="ai"><span class="project-number">03</span><span class="project-title">AI 工具<span class="project-plus" aria-hidden="true">+</span></span><span class="project-subtitle">让新能力进入工作流</span></button>
-          <button class="project" data-open="play"><span class="project-number">04</span><span class="project-title">交互实验<span class="project-plus" aria-hidden="true">+</span></span><span class="project-subtitle">给好奇心留个位置</span></button>
+      <section class="studio" id="studio" aria-labelledby="studio-title">
+        <div class="studio-heading"><div><p class="section-note">一个念头，几种可能。</p><h2 id="studio-title">别光看。<br>造点什么。</h2></div><p class="studio-lede">把一句话投进来，<br>搅成一张只属于你的怪图。</p></div>
+        <div class="studio-layout">
+          <div class="canvas-column"><div class="canvas-frame" id="canvas-frame"><canvas id="art-canvas" width="1000" height="1200" role="img" aria-label="根据你的短句生成的艺术海报"></canvas><div class="canvas-hover-hint" aria-hidden="true">手指划过，搅动一下</div></div><div class="canvas-meta"><span id="art-name">念头正在成形</span><span>本地生成 · 无需登录</span></div></div>
+          <div class="studio-controls">
+            <form id="idea-form"><label for="idea">先丢一个念头</label><div class="idea-input"><input id="idea" name="idea" maxlength="36" value="把复杂，玩明白" placeholder="比如：今天不按套路来" autocomplete="off" required><button type="submit" aria-label="用这句话生成海报">↗</button></div></form>
+            <div class="idea-suggestions" role="group" aria-label="试试这些念头"><button type="button" data-idea="让灵感绕个弯">灵感绕弯</button><button type="button" data-idea="今天不按套路来">不按套路</button><button type="button" data-idea="认真发呆，也算创作">认真发呆</button></div>
+            <fieldset class="style-picker"><legend>选一种性格</legend><div class="style-options"><button type="button" data-style="orbit" aria-pressed="true"><span aria-hidden="true">◎</span>绕个弯</button><button type="button" data-style="field" aria-pressed="false"><span aria-hidden="true">≋</span>起点风</button><button type="button" data-style="stack" aria-pressed="false"><span aria-hidden="true">▥</span>叠起来</button></div></fieldset>
+            <fieldset class="palette-picker"><legend>给念头上色</legend><div class="palette-options"><button type="button" data-palette="lime" class="palette-lime" aria-label="荧光绿与炭黑" aria-pressed="true"></button><button type="button" data-palette="orange" class="palette-orange" aria-label="橘红与奶白" aria-pressed="false"></button><button type="button" data-palette="blue" class="palette-blue" aria-label="电光蓝与浅蓝" aria-pressed="false"></button><button type="button" data-palette="mono" class="palette-mono" aria-label="黑白" aria-pressed="false"></button></div></fieldset>
+            <div class="energy-control"><label for="energy">有多不安分 <output id="energy-value" for="energy">60%</output></label><input id="energy" type="range" min="10" max="100" step="1" value="60"><div class="range-labels"><span>克制一点</span><span>放飞一点</span></div></div>
+            <button type="button" class="remix-button" id="remix">再搅一次 <span aria-hidden="true">↻</span></button>
+            <div class="art-actions"><button type="button" id="download">下载怪图 ↓</button><button type="button" id="save-art">留在本机 ＋</button><button type="button" id="share-art">分享配方 ↗</button></div>
+            <p class="studio-status" id="studio-status" role="status" aria-live="polite" aria-atomic="true">每个念头都会留下不同的纹路。</p>
+            <p class="engine-note">灵感来自生成式 AI 的“边想边玩”。这里运行的是本地创意算法，输入不会上传；分享链接会包含你的短句。</p>
+            <details class="share-fallback" id="share-fallback" hidden><summary>复制这张怪图的链接</summary><label class="sr-only" for="share-url">分享链接</label><input id="share-url" type="text" readonly></details>
+          </div>
         </div>
+        <div class="saved-header"><h3>留住的念头 <span id="saved-count">0</span></h3><button type="button" class="text-button" id="refresh-saved">刷新收藏</button></div><div class="saved-gallery" id="saved-gallery"><p class="saved-empty">遇到喜欢的就留下来。下次来，还在这台设备里。</p></div>
+        <noscript><p>开启 JavaScript 后，可以生成、下载和收藏怪图。下面的作品与个人介绍仍可阅读。</p></noscript>
       </section>
 
-      <details class="flow-play" id="flow-play">
-        <summary><span>来，接通一站式理赔服务</span><span class="flow-invitation">一个小挑战 <span aria-hidden="true">↗</span></span></summary>
-        <div class="flow-body">
-          <div class="flow-heading"><h2>从入院，到出院。</h2><span id="flow-progress">0 / 3</span></div>
-          <p class="flow-intro">一站式理赔服务，如何贯穿一次住院？跟着情境，接通三个服务阶段。</p>
-          <ol class="flow-track" id="flow-track" aria-label="已连接的流程"></ol>
-          <div class="flow-scenario"><h3 id="flow-scene">刚刚入院，理赔服务如何及时接上？</h3><p id="flow-prompt">请选择对应的服务阶段。</p></div>
-          <div class="flow-choices" id="flow-choices" role="group" aria-label="选择下一个环节"></div>
-          <p class="flow-feedback" id="flow-feedback" role="status" aria-live="polite" aria-atomic="true">先从入院这一刻开始，选择对应的服务阶段。</p>
-          <ol class="flow-records" id="flow-records" aria-label="已接通的服务记录" hidden></ol>
-          <div class="flow-bottom"><span>简化流程示意 · 点击或用 Tab / Enter 操作</span><div><button type="button" id="flow-undo" disabled>撤回一步</button><button type="button" id="flow-reset">重新打乱 ↻</button></div></div>
-        </div>
-      </details>
+      <section class="work" id="work" aria-labelledby="work-title"><div class="work-intro"><p class="section-note">把想法落到实处。</p><h2 id="work-title">也有认真<br>造的东西。</h2><p>业务、规则、界面和体验，<br>都得接得上。</p></div><div class="work-list">
+        <details class="work-item"><summary><span><strong>数智赔</strong><span class="work-subtitle">让理赔服务，从入院就开始。</span></span><span class="work-plus" aria-hidden="true">＋</span></summary><div class="work-body"><span class="work-type">企业内部项目</span><p>参与商业保险理赔相关的技术与服务应用建设，关注入院感知、住院协同、出院理赔，以及各环节之间的信息与服务衔接。</p><p>把业务规则变成可操作的流程，让用户和业务人员知道：现在到哪一步，接下来做什么。</p></div></details>
+        <details class="work-item"><summary><span><strong>医问百通</strong><span class="work-subtitle">让专业信息，变成能用的服务。</span></span><span class="work-plus" aria-hidden="true">＋</span></summary><div class="work-body"><span class="work-type">团队项目</span><p>围绕药品、医院、医保与保险保障信息，参与查询工具、知识问答和用户端服务建设。</p><p>探索「小问」的交互式对话，让答案里的信息可以继续查看和操作。</p></div></details>
+        <details class="work-item"><summary><span><strong>AI 与工具</strong><span class="work-subtitle">把新能力，接进真实的工作。</span></span><span class="work-plus" aria-hidden="true">＋</span></summary><div class="work-body"><span class="work-type">持续探索</span><p>关注知识库、规则与工作流、智能体和统一模型接入。该确定的交给规则，需要理解与检索的让模型参与。</p><p>关心一个工具是否可用，也关心结果能否追溯、系统能否维护。</p></div></details>
+      </div></section>
+
+      <details class="flow-play" id="flow-play"><summary><span>来，接通一站式理赔服务</span><span class="flow-invitation">一个小挑战 <span aria-hidden="true">↗</span></span></summary><div class="flow-body"><div class="flow-heading"><h2>从入院，到出院。</h2><span id="flow-progress">0 / 3</span></div><p class="flow-intro">跟着一次住院情境，接通三个服务阶段。</p><ol class="flow-track" id="flow-track" aria-label="已连接的流程"></ol><div class="flow-scenario"><h3 id="flow-scene">刚刚入院，理赔服务如何及时接上？</h3><p id="flow-prompt">请选择对应的服务阶段。</p></div><div class="flow-choices" id="flow-choices" role="group" aria-label="选择下一个环节"></div><p class="flow-feedback" id="flow-feedback" role="status" aria-live="polite" aria-atomic="true">先从入院这一刻开始。</p><ol class="flow-records" id="flow-records" aria-label="已接通的服务记录" hidden></ol><div class="flow-bottom"><span>简化流程示意</span><div><button type="button" id="flow-undo" disabled>撤回一步</button><button type="button" id="flow-reset">重新打乱 ↻</button></div></div></div></details>
+      <section class="closing"><p>事情认真做。<br>好奇心<span>别收起来。</span></p><button class="closing-about" data-open="about">再认识我一点 ↗</button></section>
     </main>
-
-    <footer class="footer">
-      <span class="footer-note"><span class="asterisk" aria-hidden="true">✳</span>认真造东西，顺手玩一下。</span>
-      <span class="footer-year">© <span id="year">2026</span> Murphy</span>
-    </footer>
+    <footer class="footer"><a class="wordmark" href="#" aria-label="返回首页">Murphy<span aria-hidden="true">*</span></a><span>© <span id="year">2026</span> · Made with curiosity.</span><a href="https://github.com/ylater/ylater" target="_blank" rel="noopener noreferrer">看看源码 ↗</a></footer>
   </div>
-
-  <dialog id="detail-dialog" aria-labelledby="dialog-title">
-    <div class="dialog-top"><span class="dialog-kicker" id="dialog-kicker"></span><button class="close" id="dialog-close" aria-label="关闭详情" autofocus>×</button></div>
-    <div id="dialog-content"></div>
-    <div class="dialog-footer"><span id="dialog-footer-label">认真做产品，持续保持好奇。</span><span><kbd>ESC</kbd> 关闭</span></div>
-  </dialog>
-  <p class="sr-only" id="announcement" aria-live="polite"></p>
-
-  <script src="./main.js" defer></script>
-  <script src="./flow-play.js" defer></script>
+  <dialog id="about-dialog" aria-labelledby="about-title"><div class="dialog-top"><span>一份简短的使用说明</span><button class="dialog-close" id="about-close" aria-label="关闭个人说明" autofocus>×</button></div><h2 id="about-title">Murphy。<br>好奇心常驻。</h2><p>长期参与商业保险理赔相关的技术与服务应用建设。喜欢理清业务，再把流程和交互做顺。</p><p>也关注 AI 如何进入实际工作，成为可用、可维护的能力。工作之外，喜欢宋式美学、微缩场景和可以互动的小角色。</p><dl><div><dt>做事习惯</dt><dd>先理解问题，再把想法做出来。</dd></div><div><dt>细节偏好</dt><dd>表达直接，信息准确，用着顺手。</dd></div><div><dt>持续探索</dt><dd>知识库、规则引擎、智能体与交互体验。</dd></div></dl><a href="https://github.com/ylater" target="_blank" rel="noopener noreferrer">在 GitHub 找到我 ↗</a></dialog>
 </body>
 </html>

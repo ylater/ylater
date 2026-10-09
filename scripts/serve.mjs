@@ -8,10 +8,10 @@ const preview = process.argv.includes('--preview');
 const directories = preview ? ['dist'] : ['src', 'public'];
 const portIndex = process.argv.indexOf('--port');
 const port = Number(portIndex >= 0 ? process.argv[portIndex + 1] : process.env.PORT || 5173);
-if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid port');
+if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error('Invalid port');
 const types = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8',
   '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.ico': 'image/x-icon',
 };
 const server = createServer(async (request, response) => {
@@ -48,6 +48,6 @@ const server = createServer(async (request, response) => {
 });
 server.on('error', error => { console.error(error.message); process.exitCode = 1; });
 server.listen(port, '127.0.0.1', () => {
-  console.log(`${preview ? 'Preview' : 'Development'}: http://127.0.0.1:${port}`);
+  console.log(`${preview ? 'Preview' : 'Development'}: http://127.0.0.1:${server.address().port}`);
   if (!preview) console.log('Edit src/ or public/ and refresh the page to see changes.');
 });
