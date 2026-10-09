@@ -1,0 +1,16 @@
+{
+  "name": "murphy-personal-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Murphy 的个人站点：把复杂，做简单。",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs --preview",
+    "check": "node --check src/main.js && node --check src/flow-play.js && node --check src/pet.js && node --check scripts/build.mjs && node --check scripts/serve.mjs"
+  }
+}

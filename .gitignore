@@ -2,3 +2,10 @@
 *.tar.gz
 *.tgz
 node_modules/
+dist/
+.venv/
+.asset-qa/
+.DS_Store
+*.log
+
+.codegraph/

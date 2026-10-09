@@ -10,7 +10,7 @@
   const ctx=canvas.getContext('2d');
   if(!ctx)return;
   const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const CELL_W=384,CELL_H=256;
+  const CELL_W=192,CELL_H=208;
   const names={idle:'发呆中',look:'看看你',walk:'散个步',wave:'你好呀',happy:'舒服了',sleep:'打盹中',drag:'被拎走了',fall:'轻轻落地',review:'认真看看'};
   const pet={x:0,y:0,size:180,ground:0,minX:0,maxX:0,state:'idle',since:0,until:Infinity,target:0,direction:1,vx:0,vy:0,ready:false,paused:motion.matches,inView:true,visible:!document.hidden,nextWander:0,lastInput:performance.now(),look:1,drag:null};
   const sheets={};
@@ -59,31 +59,27 @@
 
   function frame(now) {
     const elapsed=Math.max(0,now-pet.since);
-    if(pet.state==='walk')return ['walk',Math.floor(elapsed/95)%6,pet.direction<0];
-    if(pet.state==='look'||pet.state==='review')return ['reactions',pet.look,false];
-    if(pet.state==='wave')return ['reactions',2,false];
-    if(pet.state==='happy')return ['reactions',3,false];
-    if(pet.state==='sleep')return ['reactions',elapsed<1100?4:5,false];
-    if(pet.state==='drag')return ['reactions',2,false];
-    if(pet.state==='fall')return ['reactions',0,false];
-    if(motion.matches)return ['idle',0,false];
-    // Long open-eye pauses, with a short natural blink in the middle.
+    if(pet.state==='walk')return [pet.direction<0?2:1,Math.floor(elapsed/95)%8];
+    if(pet.state==='look')return [pet.look===0?10:9,2];
+    if(pet.state==='review')return [8,Math.floor(elapsed/320)%6];
+    if(pet.state==='wave')return [3,Math.floor(elapsed/220)%4];
+    if(pet.state==='happy')return [6,Math.floor(elapsed/210)%6];
+    if(pet.state==='sleep')return [0,2];
+    if(pet.state==='drag')return [4,2];
+    if(pet.state==='fall')return [4,3];
+    if(motion.matches)return [0,0];
     const phase=elapsed%3800;
-    const index=phase<1300?0:phase<1850?1:phase<1960?2:phase<2070?3:phase<2190?4:5;
-    return ['idle',index,false];
+    return [0,phase<1850?0:phase<2070?2:phase<2190?3:5];
   }
 
   function paint(now=performance.now()) {
     if(!pet.ready)return;
-    const [sheet,index,flipped]=frame(now);
-    const key=sheet+':'+index+':'+flipped;
+    const [row,index]=frame(now);
+    const key=row+':'+index;
     if(key===lastFrame)return;
     lastFrame=key;
     ctx.clearRect(0,0,CELL_W,CELL_H);
-    ctx.save();
-    if(flipped){ctx.translate(CELL_W,0);ctx.scale(-1,1);}
-    ctx.drawImage(sheets[sheet],index*CELL_W,0,CELL_W,CELL_H,0,0,CELL_W,CELL_H);
-    ctx.restore();
+    ctx.drawImage(sheets.pet,index*CELL_W,row*CELL_H,CELL_W,CELL_H,0,0,CELL_W,CELL_H);
   }
 
   function walkTo(x,now=performance.now()) {
@@ -292,14 +288,12 @@
   const loadImage=src=>new Promise((resolve,reject)=>{
     const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Pet image could not load: '+src));image.src=src;
   });
-  Promise.all(['idle','walk','reactions'].map(async name=>{
-    const image=await loadImage('./pet/'+name+'.webp');
-    if(image.naturalWidth!==CELL_W*6||image.naturalHeight!==CELL_H)throw new Error('Invalid pet strip dimensions: '+name);
-    sheets[name]=image;
-  })).then(()=>{
+  loadImage('./pet/heyanju.webp').then(image=>{
+    if(image.naturalWidth!==CELL_W*8||image.naturalHeight!==CELL_H*11)throw new Error('Invalid 核验橘 sprite sheet dimensions');
+    sheets.pet=image;
     pet.ready=true;
     stage.parentElement.classList.add('pet-active');
-    actor.setAttribute('aria-label','小猫：点击互动，拖动搬家，左右方向键走动，下方向键休息');
+    actor.setAttribute('aria-label','核验橘：点击互动，拖动搬家，左右方向键走动，下方向键休息');
     measure(true);setState('idle');
     const button=menu.querySelector('[data-pet-action="pause"]');
     button.setAttribute('aria-checked',String(pet.paused));
