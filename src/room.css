@@ -1,6 +1,9 @@
 /* The old pet returns inside the current hero's typographic layout. */
-.word-button{font:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;padding:0;border:0;background:none;color:inherit;position:relative}
-.word-button:hover{color:#5e7d31}
+.word-button{font:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;padding:0;border:0;background:none;color:#2e53eb;position:relative;isolation:isolate;display:inline-block}
+.word-button::after{content:"";position:absolute;left:3%;right:0;bottom:6px;height:5px;background:currentColor;opacity:.14;border-radius:4px;transform:scaleX(.9);transition:transform .25s,opacity .25s;pointer-events:none}
+.word-button:hover::after,.word-button:focus-visible::after{transform:scaleX(1);opacity:.36}
+.word-button.changed{animation:word-pop .38s cubic-bezier(.15,.85,.3,1.2)}
+@keyframes word-pop{0%{transform:translateY(0)}35%{transform:translateY(-8px) rotate(-2deg)}75%{transform:translateY(2px)}100%{transform:translateY(0)}}
 .headline-controls{display:flex;align-items:center;gap:14px;margin:-16px 0 27px;font-size:11px;line-height:1.8;color:#646c5c}
 .headline-controls button{border:0;border-bottom:1px solid #9aa88c;background:none;font-size:11px;padding:5px 0;color:inherit}
 .hero-object.playground{width:100%;max-width:520px;min-width:0;justify-self:end;align-self:center;margin:0;position:relative}
@@ -70,4 +73,4 @@
 @media(max-width:760px){.stage{height:330px}.orbit-word{padding:10px 12px;font-size:13px;gap:6px}.orbit-word>span{font-size:12px}.stage-caption{font-size:11px}.hero-object.playground{max-width:400px}.headline-controls{margin-top:-12px;margin-bottom:20px;gap:10px;font-size:10px}.headline-controls button{font-size:10px}.room-studio h2{font-size:33px}.room-viewport{height:500px}.room-caption{font-size:10px}}
 @media(max-width:540px){.hero-object.playground{max-width:420px;margin-top:20px;justify-self:center}.stage{height:330px}.room-studio .studio-heading{flex-direction:column;gap:16px}.room-studio .studio-lede{padding:0;margin:0;font-size:12px}.room-studio .studio-lede br{display:none}.room-studio h2{font-size:30px}.room-controls{display:block}.room-viewport{height:410px}.room-caption{flex-direction:column;gap:3px}.room-view-actions{right:11px;bottom:11px}.room-options{gap:8px}.room-options button{padding:12px 4px}.room-controls form{margin-bottom:26px}.room-footer{gap:8px;flex-direction:column}.room-scene-note{font-size:12px}}
 @media(max-width:360px){.stage{height:310px}.orbit-word{font-size:12px;padding:9px 10px;gap:5px}.orbit-word>span{display:none}.room-viewport{height:370px}.room-studio h2{font-size:27px}}
-@media(prefers-reduced-motion:reduce){.orbit-word,.whisper,.roof-switch::after{transition:none}}
+@media(prefers-reduced-motion:reduce){.orbit-word,.whisper,.roof-switch::after,.word-button::after{transition:none}.word-button.changed{animation:none}}

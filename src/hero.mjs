@@ -142,8 +142,14 @@ import { createHeadlineCycle } from './headline-cycle.mjs';
     const automatic = $('headline-auto');
     let autoEnabled = !reducedMotion.matches;
     const cycle = createHeadlineCycle((text, note, manual) => {
+      const changed = adjective.textContent !== text;
       adjective.textContent = text;
       adjective.setAttribute('aria-label', text + '，点击换个角度');
+      adjective.classList.remove('changed');
+      if (changed && !reducedMotion.matches) {
+        void adjective.offsetWidth;
+        adjective.classList.add('changed');
+      }
       if (manual) {
         say(note, 2800);
         $('headline-announcement').textContent = note;
