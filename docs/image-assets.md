@@ -3,7 +3,7 @@
 2026-10-09，Codex 原生 image_gen；未使用 API、SDK、CLI 或 API Key。
 
 - 项目素材：`public/art/murphy-cat.png`
-- 用途：个人站首页主视觉与核验橘点击反馈。
+- 用途：上一版个人站主视觉；当前已恢复原 pet 动画图集，此生成图不再由页面加载。
 - 原始生成文件保留于 Codex generated_images；项目使用独立副本。
 
 ## 提示词

@@ -1,51 +1,62 @@
-# dev 重设计验收记录
+# 宋式雅间版本验收
 
-日期：2026-10-09。分支：dev。用户已明确授权本版浏览器 UI 验收。
+2026-10-10，dev 分支。用户已授权本版浏览器 UI 验收。
 
-## 自动化结果
+## 检查结果
 
 | 检查 | 结果 |
 | --- | --- |
-| `npm run check` | 活动 JS/ES modules 与构建、服务脚本语法通过 |
-| `npm test` | 4 项单元测试通过：Unicode 分享往返、无效参数约束、空/超长输入、确定性种子 |
+| `npm run check` | 活动 JavaScript、ES modules、构建与服务脚本语法通过 |
+| `npm test` | 6 项单元测试通过：标题轮换/组合暂停/清理，雅间分享/16 种季节天气组合/输入约束 |
 | `npm run build` | 静态产物成功生成 |
-| `npm run verify` | 9 个页面引用资源、生成 PNG、module MIME、预览响应及缺失资源 404 通过 |
-| 浏览器主链路 | 24 项检查通过；直接访问最终 `dist` 预览，非只验证开发源码 |
-| 浏览器边界 | 9 项检查通过；收藏容量、重复保存、长文本、禁用存储、键盘焦点、同源资源 |
-| axe-core 4.14.0 | WCAG A/AA 自动规则：桌面初始、展开内容/收藏、手机展开、手机弹窗四种状态，均 0 violations |
-| 页面异常 | 上述可访问性和受限存储检查中未捕获到 pageerror；控制台初始检查 0 errors / warnings |
+| `npm run verify` | 17 个页面/模块引用资源，JS MIME、橘猫资源、雅间降级图及预览响应通过 |
+| 浏览器主链路 | 34 项实际操作检查通过 |
+| 题名补充 | 3 项检查通过：切换天气保留输入草稿、保存应用草稿、8 字题名刷新恢复 |
+| 原版橘猫补充 | 10 项检查通过：自动走动、舞台移动、注视、菜单、拖拽及降级 |
+| 浏览器边界 | 26 项检查通过，含全部 16 种季节/天气组合 |
+| axe-core 4.14.0 | 桌面、屋顶打开、手机、说明书弹窗、猫咪菜单五种状态均 0 violations |
+| 页面异常 | 上述功能与边界检查未捕获到 pageerror；正常运行控制台检查无错误 |
+| 同源资源 | 三维场景、控制器、纹理、字体均无外部 CDN 请求 |
 | `git diff --check` | 通过 |
 
-axe 的 color-contrast incomplete 已逐项查看：仅为箭头、构图符号和重新混合符号等非文字字符。对应前景/背景实算对比度为 14.83:1、12.08:1、9.40:1，与已检查的控制文字采用同色；未把 incomplete 当作自动通过或完整无障碍认证。
+## 目标对应证据
 
-## 浏览器操作覆盖
+### 原版橘猫
 
-- 核验橘点击反馈。
-- 关于弹窗打开、Esc 关闭、焦点恢复、Tab 在弹窗内循环。
-- 短句、构图、配色、强度修改后画面与可访问描述同步。
-- 下载真实 PNG，打开导出文件查看；1500 × 1800。
-- IndexedDB 收藏、刷新后恢复相同配方、删除。
-- 分享链接包含 Unicode/emoji/特殊字符，可还原同一配方；修改配方后清理旧 URL 参数。
-- 剪贴板不可用时展示可选择复制的 URL。
-- 一站式理赔顺序、错误提示、三条服务记录、撤回与重置。
-- 企业内部项目标识。
-- 320、390、768、1024、1440px 无横向溢出。
-- 减少动效关闭角色动画，键盘方向键能调整强度。
-- 本机收藏 24 条上限，满额不自动删旧作；相同配方再次保存不重复。
-- IndexedDB 不可用时明确反馈，下载仍可用，无未捕获异常。
-- 当前页面只加载同源资源，不加载在线模型或第三方字体。
+实际使用原 WebP 动画图集，检查点击挥手/整理关键词、拖拽提起与落地恢复、键盘打盹/挥手、菜单暂停、关键词键盘移动。支持原有舞台空白处移动、近距离注视、关键词拖拽、回中央、自动走动及离屏/后台生命周期，沿用原实现。
 
-## 视觉检查
+### 宋式雅间
 
-已实际查看桌面完整页、手机完整页、手机弹窗、导出 PNG 和最长中文海报。主视觉透明边缘、标题层级、深浅区域、控件布局与海报文字均检查。新角色原图已查看，素材与提示词见 `image-assets.md`。
+使用用户提供的原始三维源码，SHA-256 与 `artwork/song-room/original.html` 一致。画面实际渲染，非 iframe 或图片代替。已查看春晴朝阳、夏雨薄暮、秋雾薄暮、冬雪夜色四组画面，及完整屋顶与掀开屋顶的真实雅间。
 
-本地证据在 Git 忽略目录 `output/playwright/`：
+题名进入实际匾额纹理；季节改变草木，雨有雨线/积水/涟漪，雪改变屋顶/地面并飘雪，雾使用深度雾，灯光随时段变化。全部 16 个季节/天气组合经过浏览器操作。
 
-- `hero-final.png`、`desktop-final.png`、`mobile-final.png`
-- `mobile-dialog.png`、`downloaded-poster.png`、`long-text-poster.png`
-- `studio-orange.png`、`studio-blue.png`、`storage-unavailable.png`
-- `ui-results.log`、`edge-results.log`、`accessibility-results.log`、`contrast-review.log`
+设置保存后刷新恢复，分享链接还原完整配方，剪贴板失败提供手动复制。下载真实 PNG，验证像素尺寸大于 400 × 400、天空背景 alpha=255，并实际查看导出文件。
 
-## 范围与限制
+### 标题
 
-使用 Chromium/Playwright 的桌面与移动视口进行验收，未声称真实 iPhone/Safari 或完整屏幕阅读器认证。没有生产发布，www.ylater.com 的线上版本不属于本次本地验收。收藏是浏览器本机数据，不是云端数据库。程序海报不是真实在线 AI 推理。
+默认“简单”，实际等待 8 秒验证自动切到“好用”；暂停后等待超过周期不变化；手动依次切换完整四词；首页复位。减少动效停用自动轮换，手动换词仍可用。组合暂停与计时器清理另有单元测试。
+
+## 边界与键盘
+
+- 320、390、768、1024、1440px 无稳定横向溢出；舞台裁切防止缩放瞬间的旧像素坐标撑宽页面。
+- WebGL 不可用时显示静态预览和明确提示，禁用截图；设置反馈明确区分静态预览与实时场景。
+- localStorage 受限时保存失败有可操作提示，没有未捕获异常。
+- 三维画布支持方向键和加减键，按钮可归位/缩放；橘猫与菜单保留键盘操作。
+- 跳过导航链接键盘聚焦时可见，并移交焦点到 main。
+- 说明书保留 Esc、焦点循环和关闭后的焦点恢复。
+
+## 可访问性检查的范围
+
+axe 的 incomplete 已单独查看，包括符号颜色、弹窗背景混合计算和菜单 ARIA 关系。已实际检查菜单展开、焦点、对应 id/role，以及文字与不透明背景颜色；不将 incomplete 自动算作通过，也不声称完整屏幕阅读器或 WCAG 认证。首次检查发现关键词装饰符号对比度不足，已加深并重新检查至 0 violations。
+
+## 本地证据
+
+被 Git 忽略的 `output/playwright/` 下保留：
+
+- `room-spring.png`、`room-summer.png`、`room-autumn.png`、`room-winter.png`
+- `room-default-final.png`、`room-open-final.png`、`room-capture.png`
+- `room-desktop-final.png`、`room-mobile-final.png`、`room-fallback-final.png`
+- `room-preview-results.log`、`room-ui-results.log`、`room-boundary-results.log`、`room-accessibility-results.log`、`restored-pet-results.log`、`room-final-details.log`
+
+验收使用 Chromium 的桌面与移动视口，不等同于真实 iPhone/Safari 检查。三维场景需要 WebGL；保存设置只在本机。线上发布以 Sites 工具返回的终态为准，自定义域名 DNS 不属于本次代码升级范围。

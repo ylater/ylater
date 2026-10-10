@@ -29,16 +29,16 @@ npm run preview
 
 ## 数据与隐私
 
-- 所有海报生成在浏览器本地完成，没有真实 AI API 调用，不需要密钥。
-- 本机收藏使用 IndexedDB，最多 24 个配方。重复保存更新顺序；满额时提示用户主动删除，不覆盖旧作。
-- 收藏不跨设备同步，清除浏览器网站数据会移除收藏。
-- 分享链接包含短句和生成参数，请勿填入不希望公开的内容。
-- 浏览器禁用存储时仍可生成、分享和下载。
+- 雅间场景在浏览器本地绘制，Three.js 与 OrbitControls 由本站提供，不依赖外部 CDN。
+- 设置显式保存至 localStorage，不跨设备同步。清除网站数据会移除记住的雅间。
+- 分享链接包含题名、季节、天气、灯光、屋顶状态。
+- WebGL 不可用时保留静态预览和配方设置/分享，禁用截图。原版橘猫图集失败时保留静态猫咪。
+- 此版本不再使用海报画布和原 IndexedDB 收藏；没有主动清空旧收藏数据。
 
 ## 结构与素材
 
-模块职责见 [项目现状](project-overview.md)，主视觉原生生成记录见 [图片素材](image-assets.md)，调研见 [dev 重设计](redesign-dev.md)。
+模块职责见 [项目现状](project-overview.md)，用户提供源码与扩展说明见 [雅间升级](song-room-upgrade.md)。原版 pet 图集与 `src/pet.js`、`src/pet.css` 为当前活动实现。
 
-旧 `artwork/pet-strips/`、`public/pet/`、`src/pet.js`、`src/pet.css` 与 `tools/prepare_pet_assets.py` 保留为上一版角色素材及实现参考，当前页面不加载。处理旧素材的可选 Python 依赖见 `requirements-assets.txt`；网站开发和构建不需要 Python。
+原始宋式源码保存在 `artwork/song-room/original.html`，完整未改。Three.js 的 MIT 许可保存在 `public/vendor/THREE-LICENSE.txt`。上一版生成角色素材保留，但不再用于 hero。
 
-本版浏览器检查截图和临时验收脚本存放于被 Git 忽略的 `output/playwright/`。UI 验收记录见 [验收清单](acceptance.md)。
+截图、临时浏览器检查脚本与日志位于被 Git 忽略的 `output/playwright/`。UI 验收记录见 [验收记录](acceptance.md)。构建和本地预览不等于生产发布，线上发布以 Sites 返回结果为准。

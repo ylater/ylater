@@ -11,7 +11,7 @@
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/serve.mjs --preview",
-    "check": "node --check src/main.js && node --check src/studio.mjs && node --check src/art-engine.mjs && node --check src/art-storage.mjs && node --check src/flow-play.js && node --check scripts/build.mjs && node --check scripts/serve.mjs && node --check scripts/verify-build.mjs",
+    "check": "node --check src/main.js && node --check src/hero.mjs && node --check src/headline-cycle.mjs && node --check src/pet.js && node --check src/studio.mjs && node --check src/song-scene.mjs && node --check src/room-state.mjs && node --check src/flow-play.js && node --check scripts/build.mjs && node --check scripts/serve.mjs && node --check scripts/verify-build.mjs",
     "test": "node --test tests/*.test.mjs",
     "verify": "node scripts/verify-build.mjs"
   }

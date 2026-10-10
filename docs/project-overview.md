@@ -1,46 +1,41 @@
-# 项目现状：dev 重设计
+# 当前项目：宋式雅间版本
 
-## 定位
-Murphy 的个人展示与互动站点。商业保险理赔相关的技术与服务应用是工作方向，AI 与代码是探索工具。没有企业业务后台、理赔办理或真实模型推理服务。
+Murphy 的个人展示与互动站点。商业保险理赔相关的技术与服务应用是工作方向，AI 与代码是探索工具；不提供企业业务办理或真实模型推理服务。
 
-本版不包含文章栏目、AI 分工工作台或未完成陈列室。数智赔只展示企业内部项目的参与方向，不展示内部数据。
-
-## 页面与交互
+## 页面
 
 | 区域 | 当前行为 | 入口 |
 | --- | --- | --- |
-| 首页 | 大字个人介绍、原生生成的核验橘；点击角色循环反馈 | `src/index.html`、`src/main.js` |
-| 说明书 | 原生 dialog，Esc/按钮/外部点击关闭，焦点恢复与循环 | `#about-dialog` |
-| 灵感画布 | 短句、三种程序构图、四组配色、强度、随机种子；指针轻量搅动画面 | `src/studio.mjs`、`src/art-engine.mjs` |
-| PNG 导出 | 输出 1500 × 1800 PNG，独立画布导出，不包含临时指针偏移 | `#download` |
-| 分享配方 | 参数写入 URL；打开可还原短句、构图、配色、强度与种子；剪贴板失败提供手工复制入口 | `#share-art` |
-| 本机收藏 | IndexedDB 保存配方，刷新恢复、去重、删除；最多 24 条，满额不自动删除已有作品 | `src/art-storage.mjs` |
-| 工作方向 | 原生 details 展示数智赔、医问百通、AI 与工具 | `.work-item` |
-| 一站式理赔 | 入院感知、住院协同、出院理赔；情境、提示、记录、撤回与重置 | `src/flow-play.js` |
+| 标题 | 保留黑色大字与荧光绿下划线；点击/8 秒定时换词，可暂停、减少动效与离屏控制 | `src/hero.mjs`、`src/headline-cycle.mjs` |
+| 橘猫 | 原版动画图集；点击、拖拽、走动、注视、打盹、关键词与菜单 | `src/pet.js`、`src/pet.css`、`src/hero.mjs` |
+| 宋式雅间 | 容器内真实 Three.js 场景；题名、四季、天气、灯光、开屋顶、视角 | `src/song-scene.mjs`、`src/room.css` |
+| 雅间设置 | 保存到本机、分享配方、PNG 快照；存储/剪贴板/WebGL 失败反馈 | `src/studio.mjs`、`src/room-state.mjs` |
+| 工作方向 | 数智赔、医问百通、AI 与工具，原生 details | `.work-item` |
+| 一站式理赔 | 入院感知、住院协同、出院理赔情境与服务记录 | `src/flow-play.js` |
+| 说明书 | 原生 dialog；关闭、焦点恢复与循环 | `src/main.js` |
 
-画布是本地生成式艺术算法，不冒充在线 AI。短句不上传；分享链接会包含短句。收藏只存在当前设备/浏览器，清除网站数据会删除收藏，不存在跨设备同步。
+studio 已取代上一版海报画布，不恢复 AI 分工工作台、未完成陈列室或文章栏目。原海报收藏数据没有被主动清除，当前页面不再读写原 IndexedDB。
 
-## 工程
+## 架构
 
-原生 HTML/CSS/JavaScript 与 ES modules，零运行时 npm 依赖。Node.js 22+ 仅用于开发、构建和测试。
+原生 HTML/CSS/JS 与 ES modules。Three.js 0.169.0、OrbitControls 自托管；Node.js 22+ 用于开发/构建/测试。没有在线 AI 调用、业务后端或登录。
 
-- `src/index.html`：内容、语义、入口与 SEO。
-- `src/styles.css`：设计变量、响应式、焦点与减少动效。
-- `src/main.js`：说明书、核验橘反馈与年份。
-- `src/studio.mjs`：画布 UI、下载、分享、收藏交互。
-- `src/art-engine.mjs`：纯配方校验、URL 编解码、确定性随机及 Canvas 绘制。
-- `src/art-storage.mjs`：IndexedDB 事务、容量与错误处理。
-- `src/flow-play.js`：独立的理赔概念体验。
-- `public/art/murphy-cat.png`：本版原生生成主视觉，提示词见 `image-assets.md`。
-- `scripts/`：开发服务器、构建与产物检查。
-- `tests/`：配方、Unicode、无效参数与确定性单元测试。
-- `artwork/`、`tools/` 与旧 `public/pet/`：上一版角色原始素材与工具，当前页面不加载。
-- `src/pet.js`、`src/pet.css`：上一版动画实现保留作历史参考，本版不加载。
+- `artwork/song-room/original.html`：用户提供的原始雅间源码，保持不变。
+- `public/vendor/`：固定版本的 Three.js、OrbitControls 与 MIT 许可。
+- `public/pet/`：当前活动橘猫图集与降级图。
+- `public/room/song-room-preview.png`：WebGL 不可用时的原场景预览。
+- `public/art/murphy-cat.png`：上一版原生生成角色资产，当前页面不加载。
+- `src/room-state.mjs`：纯状态校验、描述与 URL 编解码。
+- `src/song-scene.mjs`：保留原场景并增加环境与生命周期控制。
+- `src/studio.mjs`：界面、懒加载、设置、分享与快照。
+- `src/headline-cycle.mjs`：换词计时器与可组合暂停原因。
+- `tests/`：雅间状态与标题计时器测试。
+- `scripts/`：开发、构建、资源/MIME/预览检查。
 
-构建将 `public` 与 `src` 复制到 `dist`。开发服务器从 `src`、`public` 读取；preview 仅从 `dist` 读取。`.mjs` 以 JavaScript MIME 类型提供。
+设置只保存在当前浏览器的 localStorage，不跨设备同步；分享链接会包含题名。季节与天气是用户自选的场景设定，不是实时天气。
 
-## 角色事件
-保留 `murphy:pet-react` / `murphy:pet-say` 供流程玩法反馈给首页角色。首页只在成功时更新点击动画和文案，没有持续动画循环。
+## 生命周期与可访问性
 
-## 验收
-本版用户明确授权浏览器 UI 验收，取代此前仅由用户人工验收的约束。自动化与视觉检查范围见 `acceptance.md`，调研和设计依据见 `redesign-dev.md`。
+场景将要进入视口时载入；离屏/后台停止绘制。减少动效停止天气粒子与自动换词，保留手动控制。三维画布可通过方向键旋转、加减键缩放、Home 归位；也提供按钮。原生橘猫、关键词及菜单保留键盘操作。
+
+构建复制 `src` 与 `public` 至 `dist`。`.mjs` 需作为 JavaScript MIME 提供；开发/预览服务器已支持。用户已授权本版浏览器验收，结果见 [验收记录](acceptance.md)。

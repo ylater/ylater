@@ -17,13 +17,15 @@ async function inspect(file) {
   const source = await readFile(file, 'utf8');
   const references = extension === '.html'
     ? Array.from(source.matchAll(/(?:src|href)="(\.[^"?#]+)(?:[?#][^"]*)?"/g), match => match[1])
-    : Array.from(source.matchAll(/(?:from\s*|import\s*)['"](\.[^'"]+)['"]/g), match => match[1]);
+    : Array.from(source.matchAll(/(?:from\s*|import\s*\(?\s*)['"](\.[^'"]+)['"]/g), match => match[1]);
   for (const reference of references) await inspect(resolve(dirname(file), reference));
 }
 await inspect(resolve(output, 'index.html'));
-const image = await readFile(resolve(output, 'art/murphy-cat.png'));
-assert.equal(image.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', 'Hero must be a valid PNG');
-assert.ok(image.length > 10000, 'Hero image is unexpectedly small');
+const image = await readFile(resolve(output, 'pet/heyanju-idle.png'));
+assert.ok((await stat(resolve(output, 'pet/heyanju.webp'))).size > 10000, 'Missing animated pet sprite');
+assert.ok((await stat(resolve(output, 'room/song-room-preview.png'))).size > 10000, 'Missing static room fallback');
+assert.equal(image.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', 'Pet fallback must be a valid PNG');
+assert.ok(image.length > 10000, 'Pet image is unexpectedly small');
 
 const child = spawn(process.execPath, ['scripts/serve.mjs', '--preview', '--port', '0'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'] });
 try {
@@ -47,7 +49,7 @@ try {
   }
   const missing = await fetch(origin + '/not-a-real-file');
   assert.equal(missing.status, 404, 'Missing resources must return 404');
-  console.log(`Verified ${visited.size} build resources, module MIME types, generated PNG and preview responses.`);
+  console.log(`Verified ${visited.size} build resources, module MIME types, pet assets and room fallback and preview responses.`);
 } finally {
   child.kill();
 }

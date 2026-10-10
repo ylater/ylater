@@ -128,6 +128,7 @@
 
   function ensureLoop() {
     if(raf||!pet.ready||!pet.inView||!pet.visible)return;
+    if(motion.matches&&['idle','sleep'].includes(pet.state)&&pet.until===Infinity)return;
     raf=requestAnimationFrame(tick);
   }
 
