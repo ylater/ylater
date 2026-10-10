@@ -1,5 +1,5 @@
 /* The old pet returns inside the current hero's typographic layout. */
-.word-button{font:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;padding:0;border:0;background:none;color:#2e53eb;position:relative;isolation:isolate;display:inline-block}
+.word-button{font:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;padding:0;border:0;background:none;color:var(--accent);position:relative;isolation:isolate;display:inline-block}
 .word-button::after{content:"";position:absolute;left:3%;right:0;bottom:6px;height:5px;background:currentColor;opacity:.14;border-radius:4px;transform:scaleX(.9);transition:transform .25s,opacity .25s;pointer-events:none}
 .word-button:hover::after,.word-button:focus-visible::after{transform:scaleX(1);opacity:.36}
 .word-button.changed{animation:word-pop .38s cubic-bezier(.15,.85,.3,1.2)}
