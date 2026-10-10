@@ -37,9 +37,12 @@
 .room-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .room-loading{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);max-width:90%;width:max-content;white-space:normal;margin:0;padding:9px 15px;background:#f8f9f6;color:#3d4733;border-radius:8px;font-size:12px;line-height:1.8;text-align:center;z-index:2}
 .room-retry{position:absolute;top:20px;left:20px;border:0;background:#f8f9f6;color:#3d4733;border-radius:20px;padding:9px 13px;font-size:12px;z-index:3}
-.room-view-actions{position:absolute;right:16px;bottom:16px;display:flex;gap:6px;z-index:1}
-.room-view-actions button{border:0;border-radius:6px;background:#f8f9f6;color:#34442d;font-size:13px;padding:9px 11px;min-width:34px;min-height:34px}
-.room-view-actions button:disabled{opacity:.55}
+.room-view-actions{position:absolute;right:16px;bottom:16px;display:flex;gap:2px;z-index:1;--view-action-ink:#26382c}
+.room-view-actions button{display:grid;place-items:center;border:0;border-radius:50%;background:transparent;color:var(--view-action-ink);font-size:21px;font-weight:350;line-height:1;padding:6px;width:34px;height:34px;opacity:.72;transition:opacity .2s}
+.room-view-actions button:hover:not(:disabled){opacity:1}
+.room-view-actions button:focus-visible{opacity:1;outline:1px solid currentColor;outline-offset:2px}
+.room-view-actions button:disabled{opacity:.35}
+.room-viewport:has(.room-mount[data-light="night"]) .room-view-actions{--view-action-ink:#edf2e9}
 .room-caption{display:flex;justify-content:space-between;gap:16px;font-size:11px;color:#c2c9b8;line-height:1.8;margin-top:14px}
 .room-caption>span:first-child{color:#edf2e5}
 .room-scene-note{font-size:13px;line-height:1.8;color:#c6d6b1;margin:13px 0 0}
@@ -73,4 +76,4 @@
 @media(max-width:760px){.stage{height:330px}.orbit-word{padding:10px 12px;font-size:13px;gap:6px}.orbit-word>span{font-size:12px}.stage-caption{font-size:11px}.hero-object.playground{max-width:400px}.headline-controls{margin-top:-12px;margin-bottom:20px;gap:10px;font-size:10px}.headline-controls button{font-size:10px}.room-studio h2{font-size:33px}.room-viewport{height:500px}.room-caption{font-size:10px}}
 @media(max-width:540px){.hero-object.playground{max-width:420px;margin-top:20px;justify-self:center}.stage{height:330px}.room-studio .studio-heading{flex-direction:column;gap:16px}.room-studio .studio-lede{padding:0;margin:0;font-size:12px}.room-studio .studio-lede br{display:none}.room-studio h2{font-size:30px}.room-controls{display:block}.room-viewport{height:410px}.room-caption{flex-direction:column;gap:3px}.room-view-actions{right:11px;bottom:11px}.room-options{gap:8px}.room-options button{padding:12px 4px}.room-controls form{margin-bottom:26px}.room-footer{gap:8px;flex-direction:column}.room-scene-note{font-size:12px}}
 @media(max-width:360px){.stage{height:310px}.orbit-word{font-size:12px;padding:9px 10px;gap:5px}.orbit-word>span{display:none}.room-viewport{height:370px}.room-studio h2{font-size:27px}}
-@media(prefers-reduced-motion:reduce){.orbit-word,.whisper,.roof-switch::after,.word-button::after{transition:none}.word-button.changed{animation:none}}
+@media(prefers-reduced-motion:reduce){.orbit-word,.whisper,.roof-switch::after,.word-button::after,.room-view-actions button{transition:none}.word-button.changed{animation:none}}
