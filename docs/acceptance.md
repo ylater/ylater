@@ -1,5 +1,7 @@
 # 宋式雅间版本验收
 
+以下保留初次宋式雅间升级记录；后续 stage 优化与资源清理见文末最新记录。
+
 2026-10-10，dev 分支。用户已授权本版浏览器 UI 验收。
 
 ## 检查结果
@@ -60,3 +62,14 @@ axe 的 incomplete 已单独查看，包括符号颜色、弹窗背景混合计�
 - `room-preview-results.log`、`room-ui-results.log`、`room-boundary-results.log`、`room-accessibility-results.log`、`restored-pet-results.log`、`room-final-details.log`
 
 验收使用 Chromium 的桌面与移动视口，不等同于真实 iPhone/Safari 检查。三维场景需要 WebGL；保存设置只在本机。线上发布以 Sites 工具返回的终态为准，自定义域名 DNS 不属于本次代码升级范围。
+
+
+## 后续：stage 优化与资源清理（2026-10-10）
+
+- 高亮回退蓝色；stage 关键词更新为产品、理赔、AI、好奇，采用黑白/荧光绿标签、浅绿背景与微调后的橘猫尺寸。
+- 本地 stage 的 15 项浏览器检查通过，涵盖关键词反馈、排序、拖拽、键盘、菜单与 320–1440px 布局。
+- 清理 6 个未引用发布资源，共 4,455,677 字节；原始宋式源码、当前猫咪图集、降级图与 Three.js 许可保留。
+- 构建目录从约 8.92 MB 减至 4.47 MB，减少 49.9%。此为产物体积，不等同于首屏下载量或加载速度提升。
+- 6 项单元测试通过，语法、构建与 19 个资源检查通过。验证器新增 CSS 引用、显式动态资产/许可与未引用文件拒绝检查；临时多余文件探针已确认会触发失败，随后已删除。
+- 清理后的构建预览中，原版猫咪和真实三维雅间正常载入，蓝色高亮与新 stage 均包含在产物中；未发生资源失败请求或未捕获异常。
+- 最新本地检查日志：`output/playwright/stage-refresh-results.log`、`output/playwright/clean-assets-results.log`。

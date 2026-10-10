@@ -1,5 +1,5 @@
 /* The old pet returns inside the current hero's typographic layout. */
-.word-button{font:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;padding:0;border:0;background:none;color:var(--accent);position:relative;isolation:isolate;display:inline-block}
+.word-button{font:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;padding:0;border:0;background:none;color:#2e53eb;position:relative;isolation:isolate;display:inline-block}
 .word-button::after{content:"";position:absolute;left:3%;right:0;bottom:6px;height:5px;background:currentColor;opacity:.14;border-radius:4px;transform:scaleX(.9);transition:transform .25s,opacity .25s;pointer-events:none}
 .word-button:hover::after,.word-button:focus-visible::after{transform:scaleX(1);opacity:.36}
 .word-button.changed{animation:word-pop .38s cubic-bezier(.15,.85,.3,1.2)}
@@ -9,22 +9,27 @@
 .hero-object.playground{width:100%;max-width:520px;min-width:0;justify-self:end;align-self:center;margin:0;position:relative}
 .hero-object.playground::before{content:none}
 .stage{position:relative;width:100%;height:380px;isolation:isolate;overflow:clip}
+.stage::before{content:"";position:absolute;left:50%;top:24%;width:clamp(190px,65%,280px);aspect-ratio:1;border-radius:50%;background:#eef3e5;transform:translateX(-50%);pointer-events:none;z-index:-1}
 .cat-button{position:absolute;left:50%;top:65%;width:220px;height:220px;padding:0;border:0;background:none;transform:translate(-50%,-50%);border-radius:40%;z-index:2;touch-action:none}
 .cat-image{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
-.orbit-word{position:absolute;left:calc(var(--x)*1%);top:calc(var(--y)*1%);transform:translate(-50%,-50%) rotate(var(--r));display:flex;align-items:center;gap:8px;padding:11px 17px;white-space:nowrap;border:1px solid #d9dfcf;border-radius:13px;background:#f4f6ed;color:#424a38;font-size:15px;line-height:1.4;z-index:3;touch-action:none;cursor:grab;transition:transform .35s,left .4s,top .4s}
-.orbit-word>span{font:15px var(--mono);color:#5b6b47}
-.orbit-word[data-word="AI"]{background:#e8f4d5;border-color:#cfdfb8}
-.orbit-word:hover{border-color:#8b9e73;background:#ebf1df}
+.orbit-word{position:absolute;left:calc(var(--x)*1%);top:calc(var(--y)*1%);transform:translate(-50%,-50%) rotate(var(--r));display:flex;align-items:center;gap:7px;padding:11px 18px;white-space:nowrap;border:1px solid #cbd0c4;border-radius:999px;background:var(--paper);color:var(--ink);font-size:15px;font-weight:550;letter-spacing:-.02em;line-height:1.4;z-index:3;touch-action:none;cursor:grab;transition:transform .35s,left .4s,top .4s,border-color .2s,background .2s}
+.orbit-word>span{font-size:14px;line-height:1;color:inherit}
+.orbit-word[data-word="产品"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.orbit-word[data-word="AI"]{background:var(--accent);border-color:var(--accent)}
+.orbit-word[data-word="好奇"]{border-style:dashed}
+.orbit-word:hover{border-color:var(--ink)}
+.orbit-word[data-word="产品"]:hover{background:#3e4436}
+.orbit-word[data-word="AI"]:hover{background:#d1fc83;border-color:#d1fc83}
 .orbit-word.dragging{cursor:grabbing;z-index:5;transition:none}
-.stage-caption{font-size:12px;line-height:1.7;color:#606a54;margin:18px 0 0;text-align:center}
-.whisper{position:absolute;left:50%;top:0;transform:translate(-50%,8px);width:max-content;max-width:calc(100% - 12px);padding:9px 14px;background:#252b20;color:#fff;border-radius:10px;font-size:12px;line-height:1.7;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:8;margin:0}
+.stage-caption{font-size:12px;line-height:1.8;color:var(--muted);margin:18px 0 0;text-align:center}
+.whisper{position:absolute;left:50%;top:0;transform:translate(-50%,8px);width:max-content;max-width:calc(100% - 12px);padding:10px 16px;background:var(--ink);color:var(--paper);border-radius:16px;font-size:12px;line-height:1.7;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:8;margin:0}
 .whisper.visible{opacity:1;transform:translate(-50%,0)}
 .playground .pet-controls{z-index:8;top:-12px;right:0}
-.playground .pet-menu-toggle{color:#62714f;border-color:#d9dfcf;background:#f8f9f6}
-.playground .pet-menu-toggle:hover,.playground .pet-menu-toggle[aria-expanded="true"]{color:#334527;border-color:#8b9e73;background:#e8f4d5}
-.playground .pet-menu{border-color:#d9dfcf;box-shadow:0 12px 30px #26301d16}
-.playground .pet-menu button{color:#46543a}
-.playground .pet-menu button:hover,.playground .pet-menu button:focus-visible{color:#2d3f20;background:#e8f4d5}
+.playground .pet-menu-toggle{color:#59634d;border:0;border-radius:50%;background:transparent}
+.playground .pet-menu-toggle:hover,.playground .pet-menu-toggle[aria-expanded="true"]{color:var(--ink);background:var(--accent)}
+.playground .pet-menu{border-color:var(--line);border-radius:14px;background:var(--paper);box-shadow:0 12px 30px #22241f12}
+.playground .pet-menu button{color:var(--ink)}
+.playground .pet-menu button:hover,.playground .pet-menu button:focus-visible{color:var(--ink);background:#eaf1de}
 .playground .pet-menu button[aria-checked="true"]::after{color:#46543a}
 .playground .pet-state{color:#606a54;font-size:11px}
 /* The room keeps the dark studio shell, with a large, deliberately quiet scene. */

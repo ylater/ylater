@@ -39,6 +39,10 @@ npm run preview
 
 模块职责见 [项目现状](project-overview.md)，用户提供源码与扩展说明见 [雅间升级](song-room-upgrade.md)。原版 pet 图集与 `src/pet.js`、`src/pet.css` 为当前活动实现。
 
-原始宋式源码保存在 `artwork/song-room/original.html`，完整未改。Three.js 的 MIT 许可保存在 `public/vendor/THREE-LICENSE.txt`。上一版生成角色素材保留，但不再用于 hero。
+原始宋式源码保存在 `artwork/song-room/original.html`，完整未改。Three.js 的 MIT 许可保存在 `public/vendor/THREE-LICENSE.txt`。上一版生成角色的提示词和 Git 历史保留，未使用的发布素材已清理。
 
 截图、临时浏览器检查脚本与日志位于被 Git 忽略的 `output/playwright/`。UI 验收记录见 [验收记录](acceptance.md)。构建和本地预览不等于生产发布，线上发布以 Sites 返回结果为准。
+
+## 资源维护
+
+发布目录只保留当前页面使用的资源。`npm run verify` 检查 HTML/模块/CSS 引用、显式动态资产和许可文件，并拒绝未引用的产物文件。旧素材实验不要直接输出到 `public/`；原始宋式源码与原始素材仍保留在 `artwork/`，不进入发布包。

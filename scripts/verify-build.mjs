@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import { resolve, dirname, extname, sep } from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -13,14 +13,29 @@ async function inspect(file) {
   visited.add(file);
   assert.ok((await stat(file)).isFile(), `Missing build resource: ${file}`);
   const extension = extname(file);
-  if (!['.html', '.js', '.mjs'].includes(extension)) return;
+  if (!['.html', '.js', '.mjs', '.css'].includes(extension)) return;
   const source = await readFile(file, 'utf8');
   const references = extension === '.html'
     ? Array.from(source.matchAll(/(?:src|href)="(\.[^"?#]+)(?:[?#][^"]*)?"/g), match => match[1])
-    : Array.from(source.matchAll(/(?:from\s*|import\s*\(?\s*)['"](\.[^'"]+)['"]/g), match => match[1]);
+    : extension === '.css'
+      ? Array.from(source.matchAll(/url\(\s*['"]?(\.[^'")\s]+)['"]?\s*\)/g), match => match[1])
+      : Array.from(source.matchAll(/(?:from\s*|import\s*\(?\s*)['"](\.[^'"]+)['"]/g), match => match[1]);
   for (const reference of references) await inspect(resolve(dirname(file), reference));
 }
 await inspect(resolve(output, 'index.html'));
+// These files are loaded dynamically or retained as a required distribution notice.
+for (const asset of ['pet/heyanju.webp', 'vendor/THREE-LICENSE.txt']) await inspect(resolve(output, asset));
+async function buildFiles(directory) {
+  const files = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const file = resolve(directory, entry.name);
+    if (entry.isDirectory()) files.push(...await buildFiles(file));
+    else if (entry.isFile()) files.push(file);
+  }
+  return files;
+}
+const unreferenced = (await buildFiles(output)).filter(file => !visited.has(file)).map(file => file.slice(output.length + 1));
+assert.equal(unreferenced.length, 0, `Unreferenced build resources: ${unreferenced.join(', ')}. Remove them or declare legitimate dynamic assets.`);
 const image = await readFile(resolve(output, 'pet/heyanju-idle.png'));
 assert.ok((await stat(resolve(output, 'pet/heyanju.webp'))).size > 10000, 'Missing animated pet sprite');
 assert.ok((await stat(resolve(output, 'room/song-room-preview.png'))).size > 10000, 'Missing static room fallback');

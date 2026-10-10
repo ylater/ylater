@@ -24,7 +24,7 @@ studio 已取代上一版海报画布，不恢复 AI 分工工作台、未完成
 - `public/vendor/`：固定版本的 Three.js、OrbitControls 与 MIT 许可。
 - `public/pet/`：当前活动橘猫图集与降级图。
 - `public/room/song-room-preview.png`：WebGL 不可用时的原场景预览。
-- `public/art/murphy-cat.png`：上一版原生生成角色资产，当前页面不加载。
+- 上一版未引用的图片和旧图集已从 `public/` 清理，历史素材可从 Git 历史恢复。
 - `src/room-state.mjs`：纯状态校验、描述与 URL 编解码。
 - `src/song-scene.mjs`：保留原场景并增加环境与生命周期控制。
 - `src/studio.mjs`：界面、懒加载、设置、分享与快照。
@@ -38,4 +38,4 @@ studio 已取代上一版海报画布，不恢复 AI 分工工作台、未完成
 
 场景将要进入视口时载入；离屏/后台停止绘制。减少动效停止天气粒子与自动换词，保留手动控制。三维画布可通过方向键旋转、加减键缩放、Home 归位；也提供按钮。原生橘猫、关键词及菜单保留键盘操作。
 
-构建复制 `src` 与 `public` 至 `dist`。`.mjs` 需作为 JavaScript MIME 提供；开发/预览服务器已支持。用户已授权本版浏览器验收，结果见 [验收记录](acceptance.md)。
+构建复制 `src` 与 `public` 至 `dist`；产物检查会拒绝未引用且未声明为动态资源的多余文件。`.mjs` 需作为 JavaScript MIME 提供；开发/预览服务器已支持。用户已授权本版浏览器验收，结果见 [验收记录](acceptance.md)。

@@ -39,7 +39,7 @@
     const rect=stage.getBoundingClientRect();
     const oldWidth=width||rect.width,oldGround=pet.ground||rect.height*.87;
     width=rect.width;height=rect.height;
-    pet.size=clamp(width*.40,150,186);
+    pet.size=clamp(width*.44,156,204);
     pet.ground=height*.86;
     pet.minX=pet.size*.66;
     pet.maxX=width-pet.minX;
@@ -221,7 +221,7 @@
     if(!pet.ready)return;
     pet.lastInput=performance.now();
     walkTo(width/2);
-    caption.textContent='可以摸摸，也可以拎起来。';
+    caption.textContent='摸摸核验橘，也可以拎起来。';
   }
 
   function openMenu() {

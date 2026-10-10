@@ -9,16 +9,16 @@ import { createHeadlineCycle } from './headline-cycle.mjs';
     const words = Array.from(document.querySelectorAll('.orbit-word'));
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const initial = [
-      {x:20,y:20,r:-12},
-      {x:81,y:59,r:10},
-      {x:17,y:66,r:-8},
-      {x:81,y:18,r:12}
+      {x:22,y:23,r:-8},
+      {x:80,y:63,r:6},
+      {x:80,y:23,r:8},
+      {x:20,y:65,r:-5}
     ];
     const thoughts = {
-      '界面':'看着舒服，用着顺手。',
-      '流程':'先理顺，再写代码。',
-      '规则':'该确定的，交给规则。',
-      'AI':'用新工具，解真问题。'
+      '产品':'先想清楚，再做顺手。',
+      '理赔':'从入院到出院，把服务接起来。',
+      'AI':'用新工具，解真问题。',
+      '好奇':'认真做事，也认真玩一下。'
     };
     let tidy = false;
     let whisperTimer;
@@ -43,7 +43,7 @@ import { createHeadlineCycle } from './headline-cycle.mjs';
       const widths=words.map(el=>el.offsetWidth);
       const total=widths.reduce((a,b)=>a+b,0)+gap*3;
       let left=(rect.width-total)/2;
-      // Reading order: interface, flow, rules, AI.
+      // Reading order: product, claims, AI, curiosity.
       return widths.map(w=>{const center=(left+w/2)/rect.width*100;left+=w+gap;return center;});
     }
 
@@ -52,11 +52,11 @@ import { createHeadlineCycle } from './headline-cycle.mjs';
       if(tidy) {
         const positions=rowPositions();
         words.forEach((el,i)=>place(el,positions[i],92,0));
-        caption.textContent='收拾好了。也可以拖着玩。';
+        caption.textContent='收拾好了，想法也顺了。';
         say('好了，又简单了一点。');
       } else {
         words.forEach((el,i)=>place(el,initial[i].x,initial[i].y,initial[i].r));
-        caption.textContent='偶尔散开，也会有新想法。';
+        caption.textContent='散开一点，也能冒出新想法。';
         say('整齐很好。好奇也很好。');
       }
     }
@@ -89,7 +89,7 @@ import { createHeadlineCycle } from './headline-cycle.mjs';
       function endDrag(event) {
         if(!drag||event.pointerId!==drag.pointer)return;
         suppressClick=drag.moved;
-        if(drag.moved)caption.textContent='想法有点乱？小猫随时帮忙。';
+        if(drag.moved)caption.textContent='想法换个位置，也许就通了。';
         word.classList.remove('dragging');
         if(word.hasPointerCapture(event.pointerId))word.releasePointerCapture(event.pointerId);
         drag=null;
@@ -171,7 +171,7 @@ import { createHeadlineCycle } from './headline-cycle.mjs';
     reducedMotion.addEventListener('change', () => { autoEnabled = !reducedMotion.matches;updateAutomatic(); });
     document.querySelectorAll('.wordmark').forEach(link => link.addEventListener('click', () => {
       tidy = false;words.forEach((el, i) => place(el, initial[i].x, initial[i].y, initial[i].r));
-      cycle.reset();caption.textContent = '可以摸摸，也可以拎起来。';
+      cycle.reset();caption.textContent = '摸摸核验橘，也可以拎起来。';
       whisper.classList.remove('visible');
       document.dispatchEvent(new CustomEvent('murphy:pet-home'));
     }));

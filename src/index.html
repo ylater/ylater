@@ -33,15 +33,15 @@
         <div class="hero-copy"><p class="hello">你好，我是 Murphy。</p><h1 id="headline">把复杂，<br><span class="headline-play">做<button type="button" class="word-button" id="word-button" aria-label="简单，点击换个角度">简单</button><svg viewBox="0 0 320 24" aria-hidden="true"><path d="M6 16Q150 0 311 12M35 21Q178 9 284 17"/></svg></span>。</h1><div class="headline-controls"><button type="button" id="headline-auto" aria-pressed="true">暂停自动换词</button><span>点词，也能换个角度。</span></div><p class="sr-only" id="headline-announcement" aria-live="polite"></p><p class="bio">在商业保险理赔里，把流程接起来。<br>在 AI 和代码里，把好奇心放出来。</p><a class="hero-link" href="#work">认真做的事 <span aria-hidden="true">↓</span></a></div>
         <div class="hero-object playground">
           <div class="pet-controls"><button class="pet-menu-toggle" id="pet-menu-toggle" aria-label="小猫的互动菜单" aria-haspopup="menu" aria-expanded="false" aria-controls="pet-menu">···</button><div class="pet-menu" id="pet-menu" role="menu" aria-label="小猫的互动" hidden><button role="menuitem" data-pet-action="tidy">理顺关键词</button><button role="menuitem" data-pet-action="nap">打个小盹</button><button role="menuitem" data-pet-action="home">回到这里</button><button role="menuitemcheckbox" aria-checked="false" data-pet-action="pause">暂停走动</button></div></div>
-          <div class="stage" id="stage">
+          <div class="stage" id="stage" role="group" aria-label="核验橘的互动舞台">
             <p class="whisper" id="whisper" role="status" aria-live="polite"></p>
-            <button class="orbit-word" data-word="界面" style="--x:20;--y:20;--r:-12deg" aria-label="界面：可拖动，或点击看看我的想法"><span aria-hidden="true">&lt;/&gt;</span>界面</button>
-            <button class="orbit-word" data-word="流程" style="--x:81;--y:59;--r:10deg" aria-label="流程：可拖动，或点击看看我的想法"><span aria-hidden="true">≋</span>流程</button>
-            <button class="orbit-word" data-word="规则" style="--x:17;--y:66;--r:-8deg" aria-label="规则：可拖动，或点击看看我的想法"><span aria-hidden="true">{ }</span>规则</button>
-            <button class="orbit-word" data-word="AI" style="--x:81;--y:18;--r:12deg" aria-label="AI：可拖动，或点击看看我的想法"><span aria-hidden="true">✳</span>AI</button>
+            <button class="orbit-word" data-word="产品" style="--x:22;--y:23;--r:-8deg" aria-label="产品：点击看看我的想法，也可以拖动或用方向键移动">产品</button>
+            <button class="orbit-word" data-word="理赔" style="--x:80;--y:63;--r:6deg" aria-label="理赔：点击看看我的想法，也可以拖动或用方向键移动">理赔</button>
+            <button class="orbit-word" data-word="AI" style="--x:80;--y:23;--r:8deg" aria-label="AI：点击看看我的想法，也可以拖动或用方向键移动"><span aria-hidden="true">✳</span>AI</button>
+            <button class="orbit-word" data-word="好奇" style="--x:20;--y:65;--r:-5deg" aria-label="好奇：点击看看我的想法，也可以拖动或用方向键移动">好奇</button>
             <button class="cat-button" id="cat-button" aria-label="核验橘：点击互动，可拖动；方向键让它走动"><img class="cat-image" src="./pet/heyanju-idle.png" alt="核验橘，一只戴蓝色项圈的橘猫" width="192" height="208" draggable="false" fetchpriority="high"><canvas class="pet-canvas" id="pet-canvas" width="192" height="208" aria-hidden="true"></canvas><span class="pet-state" id="pet-state" aria-hidden="true">发呆中</span></button>
           </div>
-          <p class="stage-caption" id="stage-caption">可以摸摸，也可以拎起来。</p>
+          <p class="stage-caption" id="stage-caption">摸摸核验橘，也可以拎起来。</p>
         </div>
       </section>
 
